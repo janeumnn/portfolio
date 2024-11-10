@@ -1,0 +1,7 @@
+prepare-commit-msg:
+  commands:
+    cgz:
+      interactive: true
+      run: pnpm czg --hook || true
+      env:
+        LEFTHOOK: 0
