@@ -1,5 +1,6 @@
 /** @type {import("prettier").Config} */
 export default {
+  bracketSameLine: true,
   singleQuote: true,
   quoteProps: 'consistent',
   trailingComma: 'none',
