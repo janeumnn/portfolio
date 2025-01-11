@@ -1,5 +1,5 @@
 {
-  "name": "web-astro",
+  "name": "@janeumnn/web",
   "version": "0.0.1",
   "type": "module",
   "scripts": {
@@ -13,6 +13,8 @@
   },
   "dependencies": {
     "@astrojs/tailwind": "5.1.4",
+    "@iconify-json/ri": "1.2.3",
+    "@iconify/tailwind": "1.2.0",
     "@tailwindcss/aspect-ratio": "0.4.2",
     "@tailwindcss/container-queries": "0.1.1",
     "@tailwindcss/typography": "0.5.15",

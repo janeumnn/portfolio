@@ -1,3 +1,4 @@
+import { addDynamicIconSelectors } from '@iconify/tailwind';
 import aspectRatio from '@tailwindcss/aspect-ratio';
 import containerQueries from '@tailwindcss/container-queries';
 import typography from '@tailwindcss/typography';
@@ -9,7 +10,7 @@ export default {
   theme: {
     extend: {}
   },
-  plugins: [typography, containerQueries, aspectRatio, daisyui],
+  plugins: [typography, containerQueries, aspectRatio, daisyui, addDynamicIconSelectors()],
   daisyui: {
     themes: [
       {
