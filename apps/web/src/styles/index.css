@@ -3,6 +3,10 @@
 @plugin '@tailwindcss/aspect-ratio';
 @plugin "@iconify/tailwind4";
 
+@theme {
+  --font-mono: 'Geist Mono Variable', monospace;
+}
+
 @plugin "daisyui" {
   themes: light, dark;
   root: ':root';
@@ -17,42 +21,33 @@
   color-scheme: 'dark';
 
   --color-base-100: oklch(0% 0 0);
-  --color-base-200: oklch(21.78% 0 0);
-  --color-base-300: oklch(32.11% 0 0);
-  --color-base-content: oklch(80.15% 0 0);
-
-  --color-primary: oklch(97.02% 0 0);
-  --color-primary-content: oklch(19.57% 0 0);
-
-  --color-secondary: oklch(45.68% 0 0);
-  --color-secondary-content: oklch(89.14% 0 0);
-
-  --color-accent: oklch(75.87% 0.0367 235);
-  --color-accent-content: oklch(15.19% 0.0066 236.83);
-
-  --color-neutral: oklch(26.86% 0 0);
-  --color-neutral-content: oklch(85.45% 0 0);
-
-  --color-info: oklch(69.47% 0.1178 239.52);
-  --color-info-content: oklch(13.91% 0.0244 241.35);
-
-  --color-success: oklch(67.31% 0.1624 144.21);
-  --color-success-content: oklch(13.37% 0.0322 143.51);
-
-  --color-warning: oklch(79.72% 0.1637 69.62);
-  --color-warning-content: oklch(15.88% 0.0342 70.88);
-
-  --color-error: oklch(64.27% 0.2153 28.81);
-  --color-error-content: oklch(12.53% 0.0442 26.42);
-
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(22% 0 0);
+  --color-base-content: oklch(87.609% 0 0);
+  --color-primary: oklch(84.094% 0 0);
+  --color-primary-content: oklch(0% 0 0);
+  --color-secondary: oklch(78.545% 0.001 197.278);
+  --color-secondary-content: oklch(0% 0 0);
+  --color-accent: oklch(73.139% 0 0);
+  --color-accent-content: oklch(0% 0 0);
+  --color-neutral: oklch(100% 0 0);
+  --color-neutral-content: oklch(0% 0 0);
+  --color-info: oklch(69.47% 0.118 239.52);
+  --color-info-content: oklch(13.91% 0.024 241.35);
+  --color-success: oklch(67.31% 0.162 144.21);
+  --color-success-content: oklch(13.37% 0.032 143.51);
+  --color-warning: oklch(79.72% 0.164 69.62);
+  --color-warning-content: oklch(15.88% 0.034 70.88);
+  --color-error: oklch(64.27% 0.215 28.81);
+  --color-error-content: oklch(12.53% 0.044 26.42);
   --radius-selector: 1rem;
   --radius-field: 1rem;
   --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
-  --depth: 1;
-  --noise: 1;
+  --depth: 0;
+  --noise: 0;
 }
 
 @plugin "daisyui/theme" {
@@ -62,47 +57,42 @@
   color-scheme: 'light';
 
   --color-base-100: oklch(100% 0 0);
-  --color-base-200: oklch(90.06% 0 0);
-  --color-base-300: oklch(80.15% 0 0);
-  --color-base-content: oklch(20.02% 0 0);
-
-  --color-primary: oklch(14.48% 0 0);
-  --color-primary-content: oklch(82.97% 0 0);
-
-  --color-secondary: oklch(73.16% 0 0);
-  --color-secondary-content: oklch(14.48% 0 0);
-
-  --color-accent: oklch(43.16% 0.0411 236.01);
-  --color-accent-content: oklch(88.57% 0.0077 241.68);
-
-  --color-neutral: oklch(26.86% 0 0);
-  --color-neutral-content: oklch(85.45% 0 0);
-
-  --color-info: oklch(69.47% 0.1178 239.52);
-  --color-info-content: oklch(13.91% 0.0244 241.35);
-
-  --color-success: oklch(67.31% 0.1624 144.21);
-  --color-success-content: oklch(13.37% 0.0322 143.51);
-
-  --color-warning: oklch(79.72% 0.1637 69.62);
-  --color-warning-content: oklch(15.88% 0.0342 70.88);
-
-  --color-error: oklch(64.27% 0.2153 28.81);
-  --color-error-content: oklch(12.53% 0.0442 26.42);
-
+  --color-base-200: oklch(97% 0 0);
+  --color-base-300: oklch(94% 0 0);
+  --color-base-content: oklch(0% 0 0);
+  --color-primary: oklch(15.906% 0 0);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(21.455% 0.001 17.278);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(26.861% 0 0);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(0% 0 0);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-info: oklch(69.47% 0.118 239.52);
+  --color-info-content: oklch(13.91% 0.024 241.35);
+  --color-success: oklch(67.31% 0.162 144.21);
+  --color-success-content: oklch(13.37% 0.032 143.51);
+  --color-warning: oklch(79.72% 0.164 69.62);
+  --color-warning-content: oklch(15.88% 0.034 70.88);
+  --color-error: oklch(64.27% 0.215 28.81);
+  --color-error-content: oklch(12.53% 0.044 26.42);
   --radius-selector: 1rem;
   --radius-field: 1rem;
   --radius-box: 1rem;
   --size-selector: 0.25rem;
   --size-field: 0.25rem;
   --border: 1px;
-  --depth: 1;
-  --noise: 1;
+  --depth: 0;
+  --noise: 0;
 }
 
 @layer base {
   :root,
   [data-theme] {
     @apply bg-base-100 text-base-content;
+  }
+
+  body {
+    font-family: var(--font-mono);
   }
 }

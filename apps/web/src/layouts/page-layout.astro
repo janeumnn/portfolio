@@ -1,0 +1,29 @@
+---
+import '@fontsource-variable/geist-mono';
+import '$/styles/index.css';
+import Header from '$/components/header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <title>n5n</title>
+  </head>
+  <body class="antialiased">
+    <div class="isolate">
+      <div class="max-w-screen overflow-x-hidden">
+        <div class="min-w-2xs flex min-h-dvh flex-col">
+          <main class="@container/main pb-22 mx-auto w-full max-w-3xl flex-grow p-6">
+            <div class="bg-base-300 rounded-box p-4">
+              <slot />
+            </div>
+          </main>
+        </div>
+        <Header />
+      </div>
+    </div>
+  </body>
+</html>
