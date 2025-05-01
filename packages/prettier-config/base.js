@@ -1,7 +1,6 @@
 /** @type {import("prettier").Config} */
 export default {
   htmlWhitespaceSensitivity: 'ignore',
-  jsxBracketSameLine: true,
   bracketSameLine: true,
   singleQuote: true,
   quoteProps: 'consistent',
