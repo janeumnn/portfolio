@@ -41,6 +41,9 @@ importers:
       '@fontsource-variable/geist-mono':
         specifier: 5.2.5
         version: 5.2.5
+      '@fontsource-variable/ibm-plex-sans':
+        specifier: 5.2.5
+        version: 5.2.5
       astro:
         specifier: 5.7.10
         version: 5.7.10(jiti@2.4.2)(lightningcss@1.29.2)(rollup@4.39.0)(typescript@5.6.3)(yaml@2.6.1)
@@ -434,6 +437,9 @@ packages:
 
   '@fontsource-variable/geist-mono@5.2.5':
     resolution: {integrity: sha512-zyuyDtO00SbmqU4Bo5XWzX2hE5RUxL+h2bv3P8SrmxqfqW66FU/xw5DW3xRQPqQgyEpb/Fh5FEFCpOna78dvCA==}
+
+  '@fontsource-variable/ibm-plex-sans@5.2.5':
+    resolution: {integrity: sha512-SrvCxqJK3NI4JBroXsJdBZGfs6QVfY0lK2VIZIIgYPea+/LI/3zYOOTI0AVvrMrmBks87GJQfPGprftlO8yInQ==}
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -3289,6 +3295,8 @@ snapshots:
       levn: 0.4.1
 
   '@fontsource-variable/geist-mono@5.2.5': {}
+
+  '@fontsource-variable/ibm-plex-sans@5.2.5': {}
 
   '@humanfs/core@0.19.1': {}
 
