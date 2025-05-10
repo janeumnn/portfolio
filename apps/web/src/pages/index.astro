@@ -1,30 +1,28 @@
 ---
+import type { Technology } from '$/content/schemas/technology';
 import Intro from '$/components/intro.astro';
+import TechnologyGrid from '$/components/technology-grid.svelte';
 import PageLayout from '$/layouts/page-layout.astro';
+import { getCollection } from 'astro:content';
+
+const technologies = (await getCollection('technologies')).reduce(
+  (acc, item) => {
+    if (!acc[item.data.type]) {
+      acc[item.data.type] = [];
+    }
+    acc[item.data.type].push(item.data);
+    return acc;
+  },
+  {} as { [key in Technology['type']]: Technology[] }
+);
 ---
 
 <PageLayout>
   <div class="flex flex-col gap-8">
     <Intro />
-    <section class="bg-neutral/10 rounded-box p-4 text-sm">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe tenetur libero optio quos
-      cumque mollitia qui sapiente harum cum minima. Eum quia consectetur iste iusto exercitationem,
-      voluptatibus quidem atque. Numquam?
-    </section>
-    <section class="bg-neutral/10 rounded-box p-4 text-sm">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe tenetur libero optio quos
-      cumque mollitia qui sapiente harum cum minima. Eum quia consectetur iste iusto exercitationem,
-      voluptatibus quidem atque. Numquam?
-    </section>
-    <section class="bg-neutral/10 rounded-box p-4 text-sm">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe tenetur libero optio quos
-      cumque mollitia qui sapiente harum cum minima. Eum quia consectetur iste iusto exercitationem,
-      voluptatibus quidem atque. Numquam?
-    </section>
-    <section class="bg-neutral/10 rounded-box p-4 text-sm">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe tenetur libero optio quos
-      cumque mollitia qui sapiente harum cum minima. Eum quia consectetur iste iusto exercitationem,
-      voluptatibus quidem atque. Numquam?
+    <section class="rounded-box bg-neutral/10 p-4">
+      <!-- No type suggestions - need fix! -->
+      <TechnologyGrid client:load data={technologies} />
     </section>
   </div>
 </PageLayout>

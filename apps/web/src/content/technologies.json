@@ -1,0 +1,104 @@
+[
+  {
+    "id": "Node.js",
+    "icon": "icon-[simple-icons--nodedotjs]",
+    "textColor": "text-nodejs",
+    "type": "runtime"
+  },
+  {
+    "id": "Deno",
+    "icon": "icon-[simple-icons--deno]",
+    "textColor": "text-deno",
+    "type": "runtime"
+  },
+  {
+    "id": "Python",
+    "icon": "icon-[simple-icons--python]",
+    "textColor": "text-python",
+    "type": "runtime"
+  },
+  {
+    "id": "Svelte",
+    "icon": "icon-[simple-icons--svelte]",
+    "textColor": "text-svelte",
+    "type": "frontend"
+  },
+  {
+    "id": "React",
+    "icon": "icon-[simple-icons--react]",
+    "textColor": "text-react",
+    "type": "frontend"
+  },
+  {
+    "id": "Astro",
+    "icon": "icon-[simple-icons--astro]",
+    "textColor": "text-astro",
+    "type": "frontend"
+  },
+  {
+    "id": "NestJS",
+    "icon": "icon-[simple-icons--nestjs]",
+    "textColor": "text-nestjs",
+    "type": "backend"
+  },
+  {
+    "id": "Express.js",
+    "icon": "icon-[simple-icons--express]",
+    "textColor": "text-expressjs",
+    "type": "backend"
+  },
+  {
+    "id": "FastAPI",
+    "icon": "icon-[simple-icons--fastapi]",
+    "textColor": "text-fastapi",
+    "type": "backend"
+  },
+  {
+    "id": "GraphQL",
+    "icon": "icon-[simple-icons--graphql]",
+    "textColor": "text-graphql",
+    "type": "backend"
+  },
+  {
+    "id": "REST API",
+    "icon": "icon-[gravity-ui--curly-brackets]",
+    "textColor": "text-restapi",
+    "type": "backend"
+  },
+  {
+    "id": "PayloadCMS",
+    "icon": "icon-[simple-icons--payloadcms]",
+    "textColor": "text-payloadcms",
+    "type": "cms"
+  },
+  {
+    "id": "Strapi",
+    "icon": "icon-[simple-icons--strapi]",
+    "textColor": "text-strapi",
+    "type": "cms"
+  },
+  {
+    "id": "MySQL",
+    "icon": "icon-[simple-icons--mysql]",
+    "textColor": "text-mysql",
+    "type": "database"
+  },
+  {
+    "id": "SQLite",
+    "icon": "icon-[simple-icons--sqlite]",
+    "textColor": "text-sqlite",
+    "type": "database"
+  },
+  {
+    "id": "MongoDB",
+    "icon": "icon-[simple-icons--mongodb]",
+    "textColor": "text-mongodb",
+    "type": "database"
+  },
+  {
+    "id": "Docker",
+    "icon": "icon-[simple-icons--docker]",
+    "textColor": "text-docker",
+    "type": "cicd"
+  }
+]

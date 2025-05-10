@@ -5,6 +5,24 @@
 
 @theme {
   --font-sans: 'IBM Plex Sans Variable', sans-serif;
+
+  --color-nodejs: oklch(50% 0.14 145);
+  --color-deno: oklch(30% 0 0);
+  --color-python: oklch(45% 0.11 235);
+  --color-svelte: oklch(55% 0.23 30);
+  --color-react: oklch(60% 0.13 220);
+  --color-nestjs: oklch(50% 0.2 20);
+  --color-expressjs: oklch(25% 0 0);
+  --color-graphql: oklch(50% 0.25 345);
+  --color-restapi: oklch(30% 0 0);
+  --color-payloadcms: oklch(30% 0 0);
+  --color-strapi: oklch(48% 0.18 255);
+  --color-mysql: oklch(48% 0.08 230);
+  --color-sqlite: oklch(55% 0.05 230);
+  --color-mongodb: oklch(55% 0.12 145);
+  --color-docker: oklch(60% 0.17 240);
+  --color-astro: oklch(58% 0.22 30);
+  --color-fastapi: oklch(50% 0.15 160);
 }
 
 @plugin "daisyui" {
@@ -12,42 +30,6 @@
   root: ':root';
   exclude: rootcolor;
   logs: false;
-}
-
-@plugin "daisyui/theme" {
-  name: 'dark';
-  default: false;
-  prefersdark: true;
-  color-scheme: 'dark';
-
-  --color-base-100: oklch(0% 0 0);
-  --color-base-200: oklch(20% 0 0);
-  --color-base-300: oklch(22% 0 0);
-  --color-base-content: oklch(87.609% 0 0);
-  --color-primary: oklch(84.094% 0 0);
-  --color-primary-content: oklch(0% 0 0);
-  --color-secondary: oklch(78.545% 0.001 197.278);
-  --color-secondary-content: oklch(0% 0 0);
-  --color-accent: oklch(73.139% 0 0);
-  --color-accent-content: oklch(0% 0 0);
-  --color-neutral: oklch(100% 0 0);
-  --color-neutral-content: oklch(0% 0 0);
-  --color-info: oklch(69.47% 0.118 239.52);
-  --color-info-content: oklch(13.91% 0.024 241.35);
-  --color-success: oklch(67.31% 0.162 144.21);
-  --color-success-content: oklch(13.37% 0.032 143.51);
-  --color-warning: oklch(79.72% 0.164 69.62);
-  --color-warning-content: oklch(15.88% 0.034 70.88);
-  --color-error: oklch(64.27% 0.215 28.81);
-  --color-error-content: oklch(12.53% 0.044 26.42);
-  --radius-selector: 1rem;
-  --radius-field: 1rem;
-  --radius-box: 1rem;
-  --size-selector: 0.25rem;
-  --size-field: 0.25rem;
-  --border: 1px;
-  --depth: 0;
-  --noise: 0;
 }
 
 @plugin "daisyui/theme" {
@@ -84,6 +66,60 @@
   --border: 1px;
   --depth: 0;
   --noise: 0;
+}
+
+@plugin "daisyui/theme" {
+  name: 'dark';
+  default: false;
+  prefersdark: true;
+  color-scheme: 'dark';
+
+  --color-base-100: oklch(0% 0 0);
+  --color-base-200: oklch(20% 0 0);
+  --color-base-300: oklch(22% 0 0);
+  --color-base-content: oklch(87.609% 0 0);
+  --color-primary: oklch(84.094% 0 0);
+  --color-primary-content: oklch(0% 0 0);
+  --color-secondary: oklch(78.545% 0.001 197.278);
+  --color-secondary-content: oklch(0% 0 0);
+  --color-accent: oklch(73.139% 0 0);
+  --color-accent-content: oklch(0% 0 0);
+  --color-neutral: oklch(100% 0 0);
+  --color-neutral-content: oklch(0% 0 0);
+  --color-info: oklch(69.47% 0.118 239.52);
+  --color-info-content: oklch(13.91% 0.024 241.35);
+  --color-success: oklch(67.31% 0.162 144.21);
+  --color-success-content: oklch(13.37% 0.032 143.51);
+  --color-warning: oklch(79.72% 0.164 69.62);
+  --color-warning-content: oklch(15.88% 0.034 70.88);
+  --color-error: oklch(64.27% 0.215 28.81);
+  --color-error-content: oklch(12.53% 0.044 26.42);
+  --radius-selector: 1rem;
+  --radius-field: 1rem;
+  --radius-box: 1rem;
+  --size-selector: 0.25rem;
+  --size-field: 0.25rem;
+  --border: 1px;
+  --depth: 0;
+  --noise: 0;
+
+  --color-nodejs: oklch(59.7% 0.14 145);
+  --color-deno: oklch(85% 0 0);
+  --color-python: oklch(53.5% 0.11 235);
+  --color-svelte: oklch(61.8% 0.23 30);
+  --color-react: oklch(85.8% 0.13 220);
+  --color-nestjs: oklch(56.8% 0.2 20);
+  --color-expressjs: oklch(75% 0 0);
+  --color-graphql: oklch(58.5% 0.25 345);
+  --color-restapi: oklch(85% 0 0);
+  --color-payloadcms: oklch(85% 0 0);
+  --color-strapi: oklch(55% 0.18 255);
+  --color-mysql: oklch(56% 0.08 230);
+  --color-sqlite: oklch(45% 0.05 230);
+  --color-mongodb: oklch(62% 0.12 145);
+  --color-docker: oklch(67% 0.17 240);
+  --color-astro: oklch(65% 0.22 30);
+  --color-fastapi: oklch(60% 0.15 160);
 }
 
 @layer base {
