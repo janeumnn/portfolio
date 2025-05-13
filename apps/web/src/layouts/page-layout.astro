@@ -1,7 +1,8 @@
 ---
 import '@fontsource-variable/ibm-plex-sans';
 import '$/styles/index.css';
-import Header from '$/components/header.astro';
+import Header from '$/components/header.svelte';
+import { ModeWatcher } from 'mode-watcher';
 ---
 
 <!doctype html>
@@ -11,8 +12,38 @@ import Header from '$/components/header.astro';
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <title>n5n</title>
+    <script is:inline>
+      const isBrowser = typeof localStorage !== 'undefined';
+
+      const getThemePreference = () => {
+        if (isBrowser && localStorage.getItem('color-theme')) {
+          return localStorage.getItem('color-theme');
+        }
+        return window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      };
+
+      const theme = getThemePreference();
+      const isDark = theme === 'dark';
+      document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
+      document.documentElement.setAttribute('data-theme', theme);
+
+      if (isBrowser) {
+        const observer = new MutationObserver(() => {
+          const isDark = document.documentElement.classList.contains('dark');
+          const theme = isDark ? 'dark' : 'light';
+          localStorage.setItem('color-theme', theme);
+          document.documentElement.setAttribute('data-theme', theme);
+        });
+
+        observer.observe(document.documentElement, {
+          attributes: true,
+          attributeFilter: ['class']
+        });
+      }
+    </script>
   </head>
   <body class="antialiased">
+    <ModeWatcher client:load modeStorageKey={'color-mode'} themeStorageKey={'color-theme'} />
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">
@@ -22,7 +53,7 @@ import Header from '$/components/header.astro';
             </div>
           </main>
         </div>
-        <Header />
+        <Header client:load />
       </div>
     </div>
   </body>

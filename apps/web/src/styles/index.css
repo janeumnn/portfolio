@@ -26,7 +26,7 @@
 }
 
 @plugin "daisyui" {
-  themes: light, dark;
+  themes: false;
   root: ':root';
   exclude: rootcolor;
   logs: false;
@@ -34,8 +34,6 @@
 
 @plugin "daisyui/theme" {
   name: 'light';
-  default: true;
-  prefersdark: false;
   color-scheme: 'light';
 
   --color-base-100: oklch(100% 0 0);
@@ -70,8 +68,6 @@
 
 @plugin "daisyui/theme" {
   name: 'dark';
-  default: false;
-  prefersdark: true;
   color-scheme: 'dark';
 
   --color-base-100: oklch(0% 0 0);
@@ -130,5 +126,31 @@
 
   body {
     font-family: var(--font-sans);
+  }
+}
+
+@utility btn-ghost {
+  &:not(.btn-active, :hover, :active:focus, :focus-visible) {
+    --btn-shadow: '';
+    --btn-bg: #0000;
+    --btn-border: #0000;
+    --btn-noise: none;
+    &:not(:disabled, [disabled], .btn-disabled) {
+      outline-color: currentColor;
+      --btn-fg: currentColor;
+    }
+  }
+
+  @media (hover: none) {
+    &:hover:not(.btn-active, :active, :focus-visible, :disabled, [disabled], .btn-disabled) {
+      --btn-shadow: '';
+      --btn-bg: #0000;
+      --btn-border: #0000;
+      --btn-noise: none;
+      &:not(:disabled, [disabled], .btn-disabled) {
+        outline-color: currentColor;
+        --btn-fg: currentColor;
+      }
+    }
   }
 }
