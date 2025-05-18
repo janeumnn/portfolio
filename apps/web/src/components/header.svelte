@@ -1,13 +1,9 @@
 <script lang="ts">
   import cn from '$/utils/cn';
-  import { useDebounce, useEventListener } from 'runed';
+  import { useEventListener } from 'runed';
   import { fly, scale } from 'svelte/transition';
 
   let isMinimized = $state(false);
-
-  const maximizeTimeout = useDebounce(() => {
-    isMinimized = false;
-  }, 5000);
 
   useEventListener(
     () => window,
@@ -17,12 +13,9 @@
         window.innerHeight + Math.ceil(window.scrollY) >= document.documentElement.scrollHeight - 2;
 
       if (isAtBottom) {
-        if (maximizeTimeout.pending) maximizeTimeout.cancel();
         isMinimized = false;
       } else {
         isMinimized = true;
-        if (maximizeTimeout.pending) maximizeTimeout.cancel();
-        maximizeTimeout().catch(() => {});
       }
     }
   );
@@ -63,10 +56,7 @@
 {/snippet}
 
 {#snippet minimized()}
-  {@const onclick = () => {
-    if (maximizeTimeout.pending) maximizeTimeout.cancel();
-    isMinimized = false;
-  }}
+  {@const onclick = () => (isMinimized = false)}
   <div
     class="flex h-full items-center justify-center p-4"
     in:fly={{ y: -20, duration: 300, delay: 300 }}
