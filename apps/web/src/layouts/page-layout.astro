@@ -2,7 +2,6 @@
 import '@fontsource-variable/ibm-plex-sans';
 import '$/styles/index.css';
 import Header from '$/components/header.svelte';
-import { ModeWatcher } from 'mode-watcher';
 ---
 
 <!doctype html>
@@ -23,27 +22,22 @@ import { ModeWatcher } from 'mode-watcher';
       };
 
       const theme = getThemePreference();
-      const isDark = theme === 'dark';
-      document.documentElement.classList[isDark ? 'add' : 'remove']('dark');
       document.documentElement.setAttribute('data-theme', theme);
 
       if (isBrowser) {
         const observer = new MutationObserver(() => {
-          const isDark = document.documentElement.classList.contains('dark');
-          const theme = isDark ? 'dark' : 'light';
+          const theme = document.documentElement.getAttribute('data-theme');
           localStorage.setItem('color-theme', theme);
-          document.documentElement.setAttribute('data-theme', theme);
         });
 
         observer.observe(document.documentElement, {
           attributes: true,
-          attributeFilter: ['class']
+          attributeFilter: ['data-theme']
         });
       }
     </script>
   </head>
   <body class="antialiased">
-    <ModeWatcher client:load modeStorageKey={'color-mode'} themeStorageKey={'color-theme'} />
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">

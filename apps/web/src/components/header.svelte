@@ -1,6 +1,5 @@
 <script lang="ts">
   import cn from '$/utils/cn';
-  import { mode, toggleMode } from 'mode-watcher';
   import { useDebounce, useEventListener } from 'runed';
   import { fly, scale } from 'svelte/transition';
 
@@ -27,6 +26,12 @@
       }
     }
   );
+
+  function toggleColorTheme() {
+    const theme =
+      document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+    document.documentElement.setAttribute('data-theme', theme);
+  }
 </script>
 
 {#snippet maximized()}
@@ -46,13 +51,9 @@
     <div class="divider m-0 divider-horizontal max-w-0.5 py-2"></div>
     <div class="flex shrink-1 items-center p-2">
       <label class="btn btn-square btn-ghost btn-md">
-        <input hidden type="checkbox" onchange={toggleMode} />
+        <input hidden type="checkbox" onchange={toggleColorTheme} />
         <span
-          class={cn([
-            'h-6 w-6',
-            { 'icon-[ri--moon-line]': mode.current === 'light' },
-            { 'icon-[ri--sun-line]': mode.current === 'dark' }
-          ])}
+          class="icon-[ri--moon-line] h-6 w-6 dark:icon-[ri--sun-line] dark:h-6 dark:w-6"
           in:scale={{ duration: 300, delay: 500 }}
           out:scale={{ duration: 300 }}>
         </span>

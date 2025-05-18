@@ -15,7 +15,6 @@
     "@astrojs/svelte": "7.0.13",
     "@fontsource-variable/ibm-plex-sans": "5.2.5",
     "astro": "5.7.10",
-    "mode-watcher": "1.0.7",
     "runed": "0.26.0",
     "svelte": "5.28.2",
     "typewriter-effect": "2.22.0"
