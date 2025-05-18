@@ -143,7 +143,7 @@
       <span>I build with</span>
       <br />
       <span class={cn(['inline-block', hightlightColor])} use:typeWriterAction>
-        {defaultHighlight}
+        <span class="hidden">{defaultHighlight}</span>
       </span>
     </div>
   </div>
@@ -154,7 +154,6 @@
           onpointerup={(e) => handlePointerUp(e, value, idx)}
           onpointerenter={(e) => handlePointerEnter(e, value)}
           onpointerleave={(e) => handlePointerLeave(e)}
-          aria-label="technology"
           class={cn([
             'btn size-full rounded-sm btn-outline btn-accent',
             { 'cursor-auto': data[value.type].length <= 1 }
