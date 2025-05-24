@@ -1,7 +1,7 @@
 <script lang="ts">
   import cn from '$/utils/cn';
   import { useEventListener } from 'runed';
-  import { fly, scale } from 'svelte/transition';
+  import { scale } from 'svelte/transition';
 
   let isMinimized = $state(false);
 
@@ -38,10 +38,7 @@
 {/snippet}
 
 {#snippet maximized()}
-  <div
-    class="flex h-full"
-    in:fly={{ y: 20, duration: 300, delay: 300 }}
-    out:fly={{ y: 20, duration: 300 }}>
+  <div class="flex h-full">
     <div class="flex flex-grow-2 items-center p-4">
       <a role="button" class="btn btn-square btn-ghost btn-md" href="/" aria-label="Home">
         <span
@@ -51,7 +48,11 @@
         </span>
       </a>
     </div>
-    <div class="divider m-0 divider-horizontal max-w-0.5 py-2"></div>
+    <div
+      class="divider m-0 divider-horizontal max-w-0.5 py-2"
+      in:scale={{ duration: 400, delay: 200 }}
+      out:scale={{ duration: 400 }}>
+    </div>
     <div class="flex shrink-1 items-center p-2">
       <label class="btn btn-square btn-ghost btn-md">
         <input hidden type="checkbox" onchange={toggleColorTheme} />
@@ -69,8 +70,8 @@
   {@const onclick = () => (isMinimized = false)}
   <div
     class="flex h-full items-center justify-center p-4"
-    in:fly={{ y: -20, duration: 300, delay: 300 }}
-    out:fly={{ y: -20, duration: 300 }}>
+    in:scale={{ duration: 400, delay: 300 }}
+    out:scale={{ duration: 400 }}>
     <button {onclick} class="btn btn-square btn-ghost btn-md" aria-label="Expand menu">
       {@render icon()}
     </button>
