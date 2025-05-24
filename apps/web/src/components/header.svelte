@@ -27,6 +27,16 @@
   }
 </script>
 
+{#snippet icon()}
+  <svg class="size-7" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <path class="fill-primary" d="M100,50A50,50 0 1,1 50,0A50,50 0 0,1 100,50Z" />
+    <path
+      class="fill-primary-content"
+      d="M42.4,71.36v-27.6c0-4.48,4.08-6.72,8.32-6.72c4.88,0,6.88,3.04,6.88,8.96v25.36h10.24v-26.4
+      c0-10.4-4.8-16.32-13.36-16.32c-6.48,0-10,3.44-11.68,7.92h-0.4v-6.96H32.08v41.76H42.4z" />
+  </svg>
+{/snippet}
+
 {#snippet maximized()}
   <div
     class="flex h-full"
@@ -61,23 +71,8 @@
     class="flex h-full items-center justify-center p-4"
     in:fly={{ y: -20, duration: 300, delay: 300 }}
     out:fly={{ y: -20, duration: 300 }}>
-    <button {onclick} class="btn btn-ghost btn-md">
-      <svg
-        viewBox="0 0 32 32"
-        class="h-8 w-8"
-        fill="currentColor"
-        in:scale={{ duration: 300, delay: 300 }}
-        out:scale={{ duration: 300 }}>
-        <circle cx="16" cy="16" r="13" class="fill-current" />
-        <text
-          x="50%"
-          y="54%"
-          dominant-baseline="middle"
-          text-anchor="middle"
-          class="fill-neutral-content text-lg font-bold">
-          N
-        </text>
-      </svg>
+    <button {onclick} class="btn btn-square btn-ghost btn-md" aria-label="Expand menu">
+      {@render icon()}
     </button>
   </div>
 {/snippet}
