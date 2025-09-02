@@ -1,6 +1,7 @@
 import baseConfig, { ts } from '@janeumnn/eslint-config';
 import astro from 'eslint-plugin-astro';
 import svelte from 'eslint-plugin-svelte';
+import { globalIgnores } from 'eslint/config';
 import globals from 'globals';
 import svelteConfig from './svelte.config.js';
 
@@ -27,5 +28,6 @@ export default [
         svelteConfig
       }
     }
-  }
+  },
+  globalIgnores(['.astro', 'dist'])
 ];
