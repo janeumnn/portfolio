@@ -3,8 +3,8 @@
 @plugin '@tailwindcss/aspect-ratio';
 @plugin "@iconify/tailwind4";
 
-@theme {
-  --font-sans: 'IBM Plex Sans Variable', sans-serif;
+@theme inline {
+  --font-sans: var(--font-ibm-plex-sans);
 
   --color-nodejs: oklch(50% 0.14 145);
   --color-deno: oklch(30% 0 0);

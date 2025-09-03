@@ -1,7 +1,7 @@
 // @ts-check
 import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
-import { defineConfig } from 'astro/config';
+import { defineConfig, fontProviders } from 'astro/config';
 
 // https://astro.build/config
 export default defineConfig({
@@ -9,5 +9,15 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [svelte()]
+  integrations: [svelte()],
+  experimental: {
+    fonts: [
+      {
+        provider: fontProviders.fontsource(),
+        name: 'IBM Plex Sans',
+        cssVariable: '--font-ibm-plex-sans',
+        weights: ['100 700']
+      }
+    ]
+  }
 });
