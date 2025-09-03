@@ -1,0 +1,44 @@
+{
+  "folders": [
+    {
+      "name": "portfolio",
+      "path": ".."
+    },
+    {
+      "name": "web",
+      "path": "../apps/web"
+    },
+    {
+      "name": "eslint-config",
+      "path": "../packages/eslint-config"
+    },
+    {
+      "name": "prettier-config",
+      "path": "../packages/prettier-config"
+    },
+    {
+      "name": "ts-config",
+      "path": "../packages/ts-config"
+    }
+  ],
+  "settings": {
+    "editor.formatOnSave": true,
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "typescript.tsdk": "node_modules/typescript/lib",
+    "eslint.validate": ["javascript", "typescript", "svelte", "astro"],
+    "prettier.documentSelectors": ["**/*.svelte"],
+    "svelte.enable-ts-plugin": true,
+    "[json]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[jsonc]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[svelte]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "[astro]": {
+      "editor.defaultFormatter": "esbenp.prettier-vscode"
+    }
+  }
+}
