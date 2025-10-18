@@ -4,4 +4,4 @@ prepare-commit-msg:
       interactive: true
       run: pnpm czg --hook || true
       env:
-        LEFTHOOK: 0
+        LEFTHOOK: '0'
