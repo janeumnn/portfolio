@@ -105,6 +105,7 @@
     watch(
       () => highlightItem,
       (curr) => {
+        if (typeWriter) typeWriter.stop();
         if (curr) {
           typeWriter = new TypeWriter(node, {
             delay: 90,
