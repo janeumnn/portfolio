@@ -28,7 +28,7 @@
 @plugin "daisyui" {
   themes: light, dark;
   root: ':root';
-  exclude: rootcolor;
+  exclude: rootcolor, properties;
   logs: false;
 }
 
