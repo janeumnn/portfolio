@@ -6,23 +6,23 @@
 @theme inline {
   --font-sans: var(--font-ibm-plex-sans);
 
-  --color-nodejs: oklch(50% 0.14 145);
-  --color-deno: oklch(30% 0 0);
-  --color-python: oklch(45% 0.11 235);
-  --color-svelte: oklch(55% 0.23 30);
-  --color-react: oklch(60% 0.13 220);
-  --color-nestjs: oklch(50% 0.2 20);
-  --color-expressjs: oklch(25% 0 0);
-  --color-graphql: oklch(50% 0.25 345);
-  --color-restapi: oklch(30% 0 0);
-  --color-payloadcms: oklch(30% 0 0);
-  --color-strapi: oklch(48% 0.18 255);
-  --color-mysql: oklch(48% 0.08 230);
-  --color-sqlite: oklch(55% 0.05 230);
-  --color-mongodb: oklch(55% 0.12 145);
-  --color-docker: oklch(60% 0.17 240);
-  --color-astro: oklch(58% 0.22 30);
-  --color-fastapi: oklch(50% 0.15 160);
+  --color-nodejs: var(--nodejs-color);
+  --color-deno: var(--deno-color);
+  --color-python: var(--python-color);
+  --color-svelte: var(--svelte-color);
+  --color-react: var(--react-color);
+  --color-nestjs: var(--nestjs-color);
+  --color-expressjs: var(--expressjs-color);
+  --color-graphql: var(--graphql-color);
+  --color-restapi: var(--restapi-color);
+  --color-payloadcms: var(--payloadcms-color);
+  --color-strapi: var(--strapi-color);
+  --color-mysql: var(--mysql-color);
+  --color-sqlite: var(--sqlite-color);
+  --color-mongodb: var(--mongodb-color);
+  --color-docker: var(--docker-color);
+  --color-astro: var(--astro-color);
+  --color-fastapi: var(--fastapi-color);
 }
 
 @plugin "daisyui" {
@@ -100,30 +100,52 @@
   --border: 1px;
   --depth: 0;
   --noise: 0;
-
-  --color-nodejs: oklch(59.7% 0.14 145);
-  --color-deno: oklch(85% 0 0);
-  --color-python: oklch(53.5% 0.11 235);
-  --color-svelte: oklch(61.8% 0.23 30);
-  --color-react: oklch(85.8% 0.13 220);
-  --color-nestjs: oklch(56.8% 0.2 20);
-  --color-expressjs: oklch(75% 0 0);
-  --color-graphql: oklch(58.5% 0.25 345);
-  --color-restapi: oklch(85% 0 0);
-  --color-payloadcms: oklch(85% 0 0);
-  --color-strapi: oklch(55% 0.18 255);
-  --color-mysql: oklch(56% 0.08 230);
-  --color-sqlite: oklch(45% 0.05 230);
-  --color-mongodb: oklch(62% 0.12 145);
-  --color-docker: oklch(67% 0.17 240);
-  --color-astro: oklch(65% 0.22 30);
-  --color-fastapi: oklch(60% 0.15 160);
 }
 
 @layer base {
   :root,
   [data-theme] {
     @apply bg-base-100 text-base-content;
+  }
+
+  :root {
+    --nodejs-color: oklch(50% 0.14 145);
+    --deno-color: oklch(30% 0 0);
+    --python-color: oklch(45% 0.11 235);
+    --svelte-color: oklch(55% 0.23 30);
+    --react-color: oklch(60% 0.13 220);
+    --nestjs-color: oklch(50% 0.2 20);
+    --expressjs-color: oklch(25% 0 0);
+    --graphql-color: oklch(50% 0.25 345);
+    --restapi-color: oklch(30% 0 0);
+    --payloadcms-color: oklch(30% 0 0);
+    --strapi-color: oklch(48% 0.18 255);
+    --mysql-color: oklch(48% 0.08 230);
+    --sqlite-color: oklch(55% 0.05 230);
+    --mongodb-color: oklch(55% 0.12 145);
+    --docker-color: oklch(60% 0.17 240);
+    --astro-color: oklch(58% 0.22 30);
+    --fastapi-color: oklch(50% 0.15 160);
+  }
+
+  [data-theme='dark'] {
+    --nodejs-color: oklch(59.7% 0.14 145);
+    --deno-color: oklch(85% 0 0);
+    --python-color: oklch(53.5% 0.11 235);
+    --svelte-color: oklch(61.8% 0.23 30);
+    --react-color: oklch(85.8% 0.13 220);
+    --nestjs-color: oklch(56.8% 0.2 20);
+    --expressjs-color: oklch(75% 0 0);
+    --graphql-color: oklch(58.5% 0.25 345);
+    --restapi-color: oklch(85% 0 0);
+    --payloadcms-color: oklch(85% 0 0);
+    --strapi-color: oklch(55% 0.18 255);
+    --mysql-color: oklch(56% 0.08 230);
+    --sqlite-color: oklch(45% 0.05 230);
+    --mongodb-color: oklch(62% 0.12 145);
+    --docker-color: oklch(67% 0.17 240);
+    --astro-color: oklch(65% 0.22 30);
+    --fastapi-color: oklch(60% 0.15 160);
   }
 
   body {
