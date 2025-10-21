@@ -53,7 +53,7 @@
       in:scale={{ duration: 400, delay: 200 }}
       out:scale={{ duration: 400 }}>
     </div>
-    <div class="flex shrink-1 items-center p-2">
+    <div class="flex shrink items-center p-2">
       <label class="btn btn-square btn-ghost btn-md">
         <input hidden type="checkbox" onchange={toggleColorTheme} />
         <span
