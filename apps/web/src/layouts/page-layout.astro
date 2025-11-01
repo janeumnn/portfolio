@@ -46,10 +46,8 @@ import { Font } from 'astro:assets';
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">
-          <main class="@container/main mx-auto w-full max-w-3xl grow p-6 pb-22">
-            <div class="rounded-box bg-base-300 p-4">
-              <slot />
-            </div>
+          <main class="@container/main mx-auto flex w-full max-w-3xl grow flex-col p-6 pb-22">
+            <slot />
           </main>
         </div>
         <Header client:load />

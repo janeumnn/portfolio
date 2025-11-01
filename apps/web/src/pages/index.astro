@@ -18,11 +18,13 @@ const technologies = (await getCollection('technologies')).reduce(
 ---
 
 <PageLayout>
-  <div class="flex flex-col gap-8">
-    <Intro />
-    <section class="rounded-box bg-neutral/10 p-4">
-      <!-- No type suggestions - need fix! -->
-      <TechnologyGrid client:load data={technologies} />
-    </section>
+  <div class="rounded-box bg-base-300 p-4">
+    <div class="flex flex-col gap-8">
+      <Intro />
+      <section class="rounded-box bg-neutral/10 p-4">
+        <!-- No type suggestions - need fix! -->
+        <TechnologyGrid client:load data={technologies} />
+      </section>
+    </div>
   </div>
 </PageLayout>

@@ -1,0 +1,24 @@
+---
+import PageLayout from '$/layouts/page-layout.astro';
+
+const heading = String.raw`
+███╗   ██╗ ██████╗ ████████╗    ███████╗ ██████╗ ██╗   ██╗███╗   ██╗██████╗
+████╗  ██║██╔═══██╗╚══██╔══╝    ██╔════╝██╔═══██╗██║   ██║████╗  ██║██╔══██╗
+██╔██╗ ██║██║   ██║   ██║       █████╗  ██║   ██║██║   ██║██╔██╗ ██║██║  ██║
+██║╚██╗██║██║   ██║   ██║       ██╔══╝  ██║   ██║██║   ██║██║╚██╗██║██║  ██║
+██║ ╚████║╚██████╔╝   ██║       ██║     ╚██████╔╝╚██████╔╝██║ ╚████║██████╔╝
+╚═╝  ╚═══╝ ╚═════╝    ╚═╝       ╚═╝      ╚═════╝  ╚═════╝ ╚═╝  ╚═══╝╚═════╝
+`;
+
+const subHeading = 'Error 404';
+---
+
+<PageLayout>
+  <div class="flex grow flex-col items-center justify-center rounded-box bg-base-300 p-4">
+    <pre
+      class="font-mono text-[0.275rem] whitespace-pre @xs/main:text-[0.4rem] @md/main:text-[0.5rem]">
+      {heading}
+    </pre>
+    <span class="font-mono">{subHeading}</span>
+  </div>
+</PageLayout>
