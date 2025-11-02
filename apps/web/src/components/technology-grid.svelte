@@ -131,16 +131,17 @@
 <div class="grid grid-cols-6">
   <div
     class="relative col-span-6 flex rounded-sm py-4 @md/main:col-span-3 @md/main:row-span-2 @md/main:py-0">
-    <span class="absolute top-0 left-0 h-6 w-6 rounded-tl-sm border-t border-l border-accent">
+    <span
+      class="absolute top-0 left-0 h-8 w-8 rounded-tl-sm border-t-[1.5px] border-l-[1.5px] border-accent">
     </span>
     <span
-      class="absolute top-0 right-0 h-6 w-6 rounded-tr-sm border-t border-r border-accent @md/main:hidden">
+      class="absolute top-0 right-0 h-8 w-8 rounded-tr-sm border-t-[1.5px] border-r-[1.5px] border-accent @md/main:hidden">
     </span>
     <span
-      class="absolute bottom-0 left-0 hidden h-6 w-6 rounded-bl-sm border-b border-l border-accent @md/main:block">
+      class="absolute bottom-0 left-0 hidden h-8 w-8 rounded-bl-sm border-b-[1.5px] border-l-[1.5px] border-accent @md/main:block">
     </span>
     <div
-      class="size-full content-center text-center text-sm/loose font-black @2xs/main:text-base/loose @xs/main:text-lg/loose @md/main:text-base/loose @lg/main:text-lg/loose @xl/main:text-xl/loose">
+      class="size-full content-center text-center text-sm font-bold tracking-tighter @2xs/main:text-base @xs/main:text-lg @md/main:text-base @lg/main:text-lg @xl/main:text-xl/loose">
       <span>I build with</span>
       <br />
       <span class={cn(['inline-block', hightlightColor])} use:typeWriterAction>
@@ -156,7 +157,7 @@
           onpointerenter={(e) => handlePointerEnter(e, value)}
           onpointerleave={(e) => handlePointerLeave(e)}
           class={cn([
-            'btn size-full rounded-sm btn-outline btn-accent',
+            'btn size-full rounded-sm border-[1.5px] btn-outline btn-accent',
             { 'cursor-auto': data[value.type].length <= 1 }
           ])}>
           {#key value.icon}

@@ -4,7 +4,7 @@
 @plugin "@iconify/tailwind4";
 
 @theme inline {
-  --font-sans: var(--font-ibm-plex-sans);
+  --font-mono: var(--font-jetbrains-mono);
 
   --color-nodejs: var(--nodejs-color);
   --color-deno: var(--deno-color);
@@ -149,7 +149,7 @@
   }
 
   body {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
   }
 }
 

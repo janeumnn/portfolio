@@ -14,11 +14,12 @@ export default defineConfig({
     fonts: [
       {
         provider: fontProviders.fontsource(),
-        name: 'IBM Plex Sans',
-        cssVariable: '--font-ibm-plex-sans',
+        name: 'JetBrains Mono',
+        cssVariable: '--font-jetbrains-mono',
+        fallbacks: ['monospace'],
         weights: ['100 700'],
-        styles: ['normal'],
-        subsets: ['latin']
+        subsets: ['latin'],
+        styles: ['normal']
       }
     ]
   }
