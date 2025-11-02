@@ -19,7 +19,7 @@
   let gridItems = $state(Object.values(data).map(([firstValue]) => firstValue));
   let highlightItem: DataValue[0] | undefined = $state();
   let hightlightColor = $state('');
-  const defaultHighlight = 'whatever the stack';
+  const defaultHighlight = 'whatever stack';
 
   const pointerLeaveDebouncer = useDebounce(() => {
     highlightItem = undefined;
