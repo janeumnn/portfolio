@@ -4,6 +4,7 @@ interface ImportMetaEnv {
   readonly SOCIALS_GITHUB: string;
   readonly SOCIALS_LINKEDIN: string;
   readonly SOCIALS_INSTAGRAM: string;
+  readonly SOCIALS_MONKEYTYPE: string;
 }
 
 interface ImportMeta {

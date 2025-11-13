@@ -6,6 +6,7 @@ export default {
   socials: {
     github: import.meta.env.SOCIALS_GITHUB,
     linkedin: import.meta.env.SOCIALS_LINKEDIN,
-    instagram: import.meta.env.SOCIALS_INSTAGRAM
+    instagram: import.meta.env.SOCIALS_INSTAGRAM,
+    monkeytype: import.meta.env.SOCIALS_MONKEYTYPE
   }
 };
