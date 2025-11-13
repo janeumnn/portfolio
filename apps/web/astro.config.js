@@ -1,6 +1,8 @@
 // @ts-check
+import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
+import robotsTxt from 'astro-robots-txt';
 import { defineConfig, envField, fontProviders } from 'astro/config';
 import { loadEnv } from 'vite';
 
@@ -12,7 +14,38 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
-  integrations: [svelte()],
+  integrations: [
+    sitemap(),
+    robotsTxt({
+      policy: [
+        {
+          userAgent: 'Googlebot',
+          allow: '/'
+        },
+        {
+          userAgent: 'Googlebot-Image',
+          allow: '/'
+        },
+        {
+          userAgent: 'bingbot',
+          allow: '/'
+        },
+        {
+          userAgent: 'DuckDuckBot',
+          allow: '/'
+        },
+        {
+          userAgent: 'LinkedInBot',
+          allow: '/'
+        },
+        {
+          userAgent: '*',
+          disallow: '/'
+        }
+      ]
+    }),
+    svelte()
+  ],
   experimental: {
     fonts: [
       {
