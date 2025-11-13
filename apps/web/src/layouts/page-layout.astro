@@ -1,21 +1,28 @@
 ---
 import '$/styles/index.css';
+import type { Props as SEOProps } from 'astro-seo';
 import Header from '$/components/header.svelte';
+import { SEO } from 'astro-seo';
 import { Font } from 'astro:assets';
+
+interface Props {
+  seo?: SEOProps;
+}
+
+const { seo } = Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
   <head>
-    <Font cssVariable="--font-jetbrains-mono" preload />
-    <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png" />
     <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png" />
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
     <link rel="manifest" href="/site.webmanifest" />
-    <title>n5n</title>
+    <Font cssVariable="--font-jetbrains-mono" preload />
+    <SEO {...seo} charset="UTF-8" titleTemplate="%s • n5n" titleDefault="n5n" />
     <script is:inline>
       const isBrowser = typeof localStorage !== 'undefined';
 
@@ -47,7 +54,7 @@ import { Font } from 'astro:assets';
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">
           <main class="@container/main mx-auto flex w-full max-w-3xl grow flex-col p-6 pb-22">
-            <slot />
+            <slot name="main" />
           </main>
         </div>
         <Header client:load />
