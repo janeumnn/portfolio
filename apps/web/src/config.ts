@@ -1,12 +1,23 @@
+import {
+  AUTHOR_EMAIL,
+  AUTHOR_NAME,
+  SITE_URL,
+  SOCIALS_GITHUB,
+  SOCIALS_INSTAGRAM,
+  SOCIALS_LINKEDIN,
+  SOCIALS_MONKEYTYPE
+} from 'astro:env/server';
+
 export default {
+  siteUrl: SITE_URL,
   author: {
-    name: import.meta.env.AUTHOR_NAME,
-    email: import.meta.env.AUTHOR_EMAIL
+    name: AUTHOR_NAME,
+    email: AUTHOR_EMAIL
   },
   socials: {
-    github: import.meta.env.SOCIALS_GITHUB,
-    linkedin: import.meta.env.SOCIALS_LINKEDIN,
-    instagram: import.meta.env.SOCIALS_INSTAGRAM,
-    monkeytype: import.meta.env.SOCIALS_MONKEYTYPE
+    github: SOCIALS_GITHUB,
+    linkedin: SOCIALS_LINKEDIN,
+    instagram: SOCIALS_INSTAGRAM,
+    monkeytype: SOCIALS_MONKEYTYPE
   }
 };
