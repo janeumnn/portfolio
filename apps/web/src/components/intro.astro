@@ -19,51 +19,71 @@ const { author, socials } = config;
       architectures, and turning ideas into something that genuinely makes an impact.
     </p>
     <div class="flex flex-wrap gap-4">
-      <a
-        role="button"
-        class="btn btn-circle btn-outline btn-sm"
-        href={socials.github}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Go to GitHub">
-        <span class="icon-[ri--github-fill] h-full w-4"></span>
-      </a>
-      <a
-        role="button"
-        class="btn btn-circle btn-outline btn-sm"
-        href={socials.linkedin}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Go to LinkedIn">
-        <span class="icon-[ri--linkedin-fill] h-full w-4"></span>
-      </a>
-      <a
-        role="button"
-        class="btn btn-circle btn-outline btn-sm"
-        href={socials.instagram}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Go to Instagram">
-        <span class="icon-[ri--instagram-fill] h-full w-4"></span>
-      </a>
-      <a
-        role="button"
-        class="btn btn-circle btn-outline btn-sm"
-        href={socials.monkeytype}
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Go to monkeytype">
-        <span class="icon-[ri--keyboard-fill] h-full w-4"></span>
-      </a>
-      <a
-        id="email-link"
-        role="button"
-        class="btn btn-sm btn-primary"
-        href={`mailto:${obfuscate(author.email)}`}
-        data-email-href={`mailto:${obfuscate(author.email)}`}
-        aria-label="Send an email">
-        Say hello
-      </a>
+      {
+        socials.github && (
+          <a
+            role="button"
+            class="btn btn-circle btn-outline btn-sm"
+            href={socials.github}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Go to GitHub">
+            <span class="icon-[ri--github-fill] h-full w-4" />
+          </a>
+        )
+      }
+      {
+        socials.linkedin && (
+          <a
+            role="button"
+            class="btn btn-circle btn-outline btn-sm"
+            href={socials.linkedin}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Go to LinkedIn">
+            <span class="icon-[ri--linkedin-fill] h-full w-4" />
+          </a>
+        )
+      }
+      {
+        socials.instagram && (
+          <a
+            role="button"
+            class="btn btn-circle btn-outline btn-sm"
+            href={socials.instagram}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Go to Instagram">
+            <span class="icon-[ri--instagram-fill] h-full w-4" />
+          </a>
+        )
+      }
+      {
+        socials.monkeytype && (
+          <a
+            role="button"
+            class="btn btn-circle btn-outline btn-sm"
+            href={socials.monkeytype}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Go to monkeytype">
+            <span class="icon-[ri--keyboard-fill] h-full w-4" />
+          </a>
+        )
+      }
+      {
+        author.email && (
+          <a
+            id="email-link"
+            role="button"
+            class="btn btn-sm btn-primary"
+            href={`mailto:${obfuscate(author.email)}`}
+            data-email-href={`mailto:${obfuscate(author.email)}`}
+            aria-label="Send an email">
+            Say hello
+          </a>
+        )
+      }
     </div>
   </div>
   <div class="order-first flex items-start justify-center @xl/main:order-last">

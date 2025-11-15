@@ -68,29 +68,29 @@ export default defineConfig({
         url: true
       }),
       AUTHOR_NAME: envField.string({ context: 'server', access: 'public', optional: false }),
-      AUTHOR_EMAIL: envField.string({ context: 'server', access: 'public', optional: false }),
+      AUTHOR_EMAIL: envField.string({ context: 'server', access: 'public', optional: true }),
       SOCIALS_GITHUB: envField.string({
         context: 'server',
         access: 'public',
-        optional: false,
+        optional: true,
         url: true
       }),
       SOCIALS_LINKEDIN: envField.string({
         context: 'server',
         access: 'public',
-        optional: false,
+        optional: true,
         url: true
       }),
       SOCIALS_INSTAGRAM: envField.string({
         context: 'server',
         access: 'public',
-        optional: false,
+        optional: true,
         url: true
       }),
       SOCIALS_MONKEYTYPE: envField.string({
         context: 'server',
         access: 'public',
-        optional: false,
+        optional: true,
         url: true
       })
     }
