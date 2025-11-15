@@ -18,6 +18,7 @@
     "astro-robots-txt": "1.0.0",
     "astro-seo": "0.8.4",
     "runed": "0.35.1",
+    "sharp": "0.34.5",
     "svelte": "5.40.1",
     "typewriter-effect": "2.22.0"
   },
