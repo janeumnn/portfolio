@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: preview
-      url: ${{ format('pr-{0}-{1}', ${{ github.event.pull_request.number }}, ${{ vars.WEB_PREVIEW_BASE_URL }}) }}
+      url: ${{ steps.preview.outputs.url }}
     defaults:
       run:
         working-directory: apps/web
@@ -138,11 +138,21 @@ jobs:
           workingDirectory: apps/web
           command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
 
+      - name: Get Preview URL
+        id: preview
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const baseUrl = '${{ vars.WEB_PREVIEW_BASE_URL }}';
+            const previewUrl = `https://pr-${prNumber}-${baseUrl}`;
+            core.setOutput('url', previewUrl);
+
       - name: Comment PR with Preview URL
         uses: mshick/add-pr-comment@v2
         with:
           message: |
-            Preview deployed at: format('pr-{0}-{1}', ${{ github.event.pull_request.number }}, ${{ vars.WEB_PREVIEW_BASE_URL }})
+            Preview deployed at: ${{ steps.preview.outputs.url }}
 
   deploy:
     needs: build
