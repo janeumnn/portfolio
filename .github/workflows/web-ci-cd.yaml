@@ -83,7 +83,7 @@ jobs:
             } else {
               core.exportVariable('DOTENV_PRIVATE_KEY_PREVIEW', DOTENV_PRIVATE_KEY_PREVIEW);
               core.exportVariable('DOTENV_ENV', 'preview');
-              core.exportVariable('SITE_URL', `https://${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
+              core.exportVariable('SITE_URL', `https://pr-${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
             }
 
       - name: Build
@@ -103,7 +103,7 @@ jobs:
     runs-on: ubuntu-latest
     environment:
       name: preview
-      url: ${{ steps.deploy.outputs.deployment-url }}
+      url: ${{ format('pr-{0}-{1}', ${{ github.event.pull_request.number }}, ${{ vars.WEB_PREVIEW_BASE_URL }}) }}
     defaults:
       run:
         working-directory: apps/web
@@ -139,16 +139,10 @@ jobs:
           command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
 
       - name: Comment PR with Preview URL
-        if: github.event.action == 'opened'
-        uses: actions/github-script@v8
+        uses: mshick/add-pr-comment@v2
         with:
-          script: |
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.payload.pull_request.number;,
-              body: `Preview deployed at: ${{ steps.deploy.outputs.deployment-url }}`,
-            });
+          message: |
+            Preview deployed at: format('pr-{0}-{1}', ${{ github.event.pull_request.number }}, ${{ vars.WEB_PREVIEW_BASE_URL }})
 
   deploy:
     needs: build
