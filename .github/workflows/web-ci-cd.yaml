@@ -67,12 +67,14 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+          WEB_PREVIEW_BASE_URL: ${{ vars.WEB_PREVIEW_BASE_URL }}
         with:
           script: |
             const {
               GITHUB_REF_NAME,
               DOTENV_PRIVATE_KEY_PREVIEW,
-              DOTENV_PRIVATE_KEY_PRODUCTION
+              DOTENV_PRIVATE_KEY_PRODUCTION,
+              WEB_PREVIEW_BASE_URL
             } = process.env
 
             if (GITHUB_REF_NAME === 'main') {
@@ -81,6 +83,7 @@ jobs:
             } else {
               core.exportVariable('DOTENV_PRIVATE_KEY_PREVIEW', DOTENV_PRIVATE_KEY_PREVIEW);
               core.exportVariable('DOTENV_ENV', 'preview');
+              core.exportVariable('SITE_URL', `https://${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
             }
 
       - name: Build
