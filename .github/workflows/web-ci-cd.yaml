@@ -93,13 +93,11 @@ jobs:
       - name: Build
         run: pnpm build
 
-      - name: Cache build output
-        uses: actions/cache@v4
+      - name: Save build output
+        uses: actions/cache/save@v4
         with:
           path: apps/web/dist
           key: web-build-${{ github.sha }}
-          restore-keys: |
-            web-build-
 
   preview-deploy:
     needs: build
@@ -119,8 +117,8 @@ jobs:
             apps/web/wrangler.jsonc
           sparse-checkout-cone-mode: false
 
-      - name: Restore build output from cache
-        uses: actions/cache@v4
+      - name: Restore build output
+        uses: actions/cache/restore@v4
         with:
           path: apps/web/dist
           key: web-build-${{ github.sha }}
@@ -152,12 +150,6 @@ jobs:
             const previewUrl = `https://pr-${prNumber}-${baseUrl}`;
             core.setOutput('url', previewUrl);
 
-      - name: Comment PR with Preview URL
-        uses: mshick/add-pr-comment@v2
-        with:
-          message: |
-            Preview deployed at: ${{ steps.preview.outputs.url }}
-
   deploy:
     needs: build
     runs-on: ubuntu-latest
@@ -176,8 +168,8 @@ jobs:
             apps/web/wrangler.jsonc
           sparse-checkout-cone-mode: false
 
-      - name: Restore build output from cache
-        uses: actions/cache@v4
+      - name: Restore build output
+        uses: actions/cache/restore@v4
         with:
           path: apps/web/dist
           key: web-build-${{ github.sha }}
