@@ -1,10 +1,6 @@
 name: web-ci-cd
 run-name: CI/CD - web
 
-permissions:
-  contents: read
-  pull-requests: write
-
 on:
   push:
     branches: [main]
