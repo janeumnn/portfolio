@@ -1,0 +1,187 @@
+name: web-ci-cd
+run-name: CI/CD - web
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    paths:
+      - 'apps/web/**'
+
+jobs:
+  check-and-lint:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Run check
+        run: pnpm check
+
+      - name: Run lint
+        run: pnpm lint
+
+  build:
+    needs: check-and-lint
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set environment
+        uses: actions/github-script@v8
+        env:
+          DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+          WEB_PREVIEW_BASE_URL: ${{ vars.WEB_PREVIEW_BASE_URL }}
+        with:
+          script: |
+            const {
+              GITHUB_REF_NAME,
+              DOTENV_PRIVATE_KEY_PREVIEW,
+              DOTENV_PRIVATE_KEY_PRODUCTION,
+              WEB_PREVIEW_BASE_URL
+            } = process.env
+
+            if (GITHUB_REF_NAME === 'main') {
+              core.exportVariable('DOTENV_PRIVATE_KEY_PRODUCTION', DOTENV_PRIVATE_KEY_PRODUCTION);
+              core.exportVariable('DOTENV_ENV', 'production');
+            } else {
+              core.exportVariable('DOTENV_PRIVATE_KEY_PREVIEW', DOTENV_PRIVATE_KEY_PREVIEW);
+              core.exportVariable('DOTENV_ENV', 'preview');
+              core.exportVariable('SITE_URL', `https://pr-${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
+            }
+
+      - name: Build
+        run: pnpm build
+
+      - name: Save build output
+        uses: actions/cache/save@v4
+        with:
+          path: apps/web/dist
+          key: web-build-${{ github.sha }}
+
+  preview-deploy:
+    needs: build
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    environment:
+      name: preview
+      url: ${{ steps.preview.outputs.url }}
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            apps/web/wrangler.jsonc
+          sparse-checkout-cone-mode: false
+
+      - name: Restore build output
+        uses: actions/cache/restore@v4
+        with:
+          path: apps/web/dist
+          key: web-build-${{ github.sha }}
+          restore-keys: |
+            web-build-
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3.12.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: 4.50.0
+          workingDirectory: apps/web
+          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+
+      - name: Get Preview URL
+        id: preview
+        uses: actions/github-script@v8
+        with:
+          script: |
+            const prNumber = context.payload.pull_request.number;
+            const baseUrl = '${{ vars.WEB_PREVIEW_BASE_URL }}';
+            const previewUrl = `https://pr-${prNumber}-${baseUrl}`;
+            core.setOutput('url', previewUrl);
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.ref_name == 'main'
+    environment:
+      name: production
+      url: ${{ steps.deploy.outputs.deployment-url }}
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            apps/web/wrangler.jsonc
+          sparse-checkout-cone-mode: false
+
+      - name: Restore build output
+        uses: actions/cache/restore@v4
+        with:
+          path: apps/web/dist
+          key: web-build-${{ github.sha }}
+          restore-keys: |
+            web-build-
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Deploy
+        id: deploy
+        uses: cloudflare/wrangler-action@v3.12.0
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: 4.50.0
+          workingDirectory: apps/web

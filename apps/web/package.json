@@ -3,10 +3,11 @@
   "version": "0.0.1",
   "type": "module",
   "scripts": {
-    "build": "astro build",
+    "build": "pnpm run env astro build",
     "check": "astro check",
     "check:watch": "astro check --watch",
-    "dev": "astro dev",
+    "dev": "pnpm run env astro dev",
+    "env": "pnpm dotenvx run --convention flow -fk ../../.env.keys --",
     "format": "prettier --write .",
     "lint": "prettier --check . && eslint .",
     "preview": "astro preview"
@@ -24,6 +25,7 @@
   },
   "devDependencies": {
     "@astrojs/check": "0.9.4",
+    "@dotenvx/dotenvx": "1.51.1",
     "@iconify/json": "2.2.395",
     "@iconify/tailwind4": "1.0.6",
     "@janeumnn/eslint-config": "workspace:*",

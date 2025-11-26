@@ -44,13 +44,13 @@ lerna-debug.log*
 # Env variable files
 ############################
 .env
-.envx
-.env.*
-.env.development.local
-.env.test.local
-.env.production.local
 .env.local
+.env.*.local
+.env.keys
+!.env.preview
+!.env.production
 !.env.example
+
 
 ############################
 # Misc
@@ -59,6 +59,7 @@ lerna-debug.log*
 public/uploads/*
 !public/uploads/.gitkeep
 .misc
+.act
 
 ############################
 # OS X
