@@ -139,7 +139,7 @@ jobs:
           workingDirectory: apps/web
           command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
 
-      - name: Get Preview URL
+      - name: Get preview URL
         id: preview
         uses: actions/github-script@v8
         with:
@@ -155,7 +155,7 @@ jobs:
     if: github.ref_name == 'main'
     environment:
       name: production
-      url: ${{ steps.deploy.outputs.deployment-url }}
+      url: ${{ steps.deployment.outputs.url }}
     defaults:
       run:
         working-directory: apps/web
@@ -189,3 +189,10 @@ jobs:
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
           command: deploy --domains ${{ vars.WEB_URL }} www.${{ vars.WEB_URL }}
+
+      - name: Get deployment URL
+        id: deployment
+        uses: actions/github-script@v8
+        with:
+          script: |
+            core.setOutput('url', 'https://${{ vars.WEB_URL }}');
