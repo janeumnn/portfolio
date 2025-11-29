@@ -1,5 +1,5 @@
 name: web-ci-cd
-run-name: CI/CD - web
+run-name: CI/CD - web (${{ github.event_name }} @ ${{ github.ref_name }})
 
 on:
   push:
