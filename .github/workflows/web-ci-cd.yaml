@@ -5,14 +5,22 @@ on:
   push:
     branches: [main]
   pull_request:
+    types: [opened, synchronize, reopened, labeled]
     paths:
       - 'apps/web/**'
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
 
 env:
   WRANGLER_VERSION: 4.51.0
 
 jobs:
-  check-and-lint:
+  checks:
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -42,8 +50,11 @@ jobs:
         run: pnpm lint
 
   build:
-    needs: check-and-lint
+    needs: checks
     runs-on: ubuntu-latest
+    if: |
+      github.ref_name == 'main' ||
+      (github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'preview'))
     defaults:
       run:
         working-directory: apps/web
@@ -100,7 +111,7 @@ jobs:
 
   preview-deploy:
     needs: build
-    if: github.event_name == 'pull_request'
+    if: github.event_name == 'pull_request' && contains(github.event.pull_request.labels.*.name, 'preview')
     runs-on: ubuntu-latest
     environment:
       name: preview
