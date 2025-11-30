@@ -1,5 +1,5 @@
 {
-  "extends": ["@janeumnn/ts-config/base", "astro/tsconfigs/strict"],
+  "extends": ["@portfolio/ts-config/base", "astro/tsconfigs/strict"],
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {

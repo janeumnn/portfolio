@@ -1,4 +1,4 @@
-import baseConfig from '@janeumnn/prettier-config';
+import baseConfig from '@portfolio/prettier-config';
 
 /** @type {import("prettier").Config} */
 export default {

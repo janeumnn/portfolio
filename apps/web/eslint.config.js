@@ -1,4 +1,4 @@
-import baseConfig, { ts } from '@janeumnn/eslint-config';
+import baseConfig, { ts } from '@portfolio/eslint-config';
 import astro from 'eslint-plugin-astro';
 import svelte from 'eslint-plugin-svelte';
 import { globalIgnores } from 'eslint/config';

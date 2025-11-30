@@ -1,3 +1,3 @@
-import baseConfig from '@janeumnn/prettier-config';
+import baseConfig from '@portfolio/prettier-config';
 
 export default baseConfig;

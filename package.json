@@ -1,5 +1,5 @@
 {
-  "name": "@janeumnn/portfolio",
+  "name": "portfolio",
   "version": "0.0.1",
   "private": true,
   "license": "MIT",
@@ -7,8 +7,8 @@
   "type": "module",
   "devDependencies": {
     "@dotenvx/dotenvx": "1.51.1",
-    "@janeumnn/eslint-config": "workspace:*",
-    "@janeumnn/prettier-config": "workspace:*",
+    "@portfolio/eslint-config": "workspace:*",
+    "@portfolio/prettier-config": "workspace:*",
     "@types/eslint": "9.6.1",
     "czg": "1.12.0",
     "eslint": "9.34.0",
