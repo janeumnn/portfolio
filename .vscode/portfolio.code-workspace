@@ -10,15 +10,15 @@
     },
     {
       "name": "eslint-config",
-      "path": "../packages/eslint-config"
+      "path": "../configs/eslint"
     },
     {
       "name": "prettier-config",
-      "path": "../packages/prettier-config"
+      "path": "../configs/prettier"
     },
     {
       "name": "ts-config",
-      "path": "../packages/ts-config"
+      "path": "../configs/ts"
     }
   ],
   "settings": {

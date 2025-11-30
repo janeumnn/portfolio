@@ -17,9 +17,9 @@ In addition to serving as a portfolio, this project is a space for experimenting
 ## Project Structure
 
 - `apps/web` — Main portfolio web application built with [Astro](https://astro.build/) and [Svelte](https://svelte.dev/).
-- `packages/eslint-config` — Shared ESLint configuration for consistent code quality.
-- `packages/prettier-config` — Shared Prettier configuration for code formatting.
-- `packages/ts-config` — Shared TypeScript configuration for type safety across projects.
+- `configs/eslint` — Shared ESLint configuration for consistent code quality.
+- `configs/prettier` — Shared Prettier configuration for code formatting.
+- `configs/ts` — Shared TypeScript configuration for type safety across projects.
 
 ## Technologies
 
