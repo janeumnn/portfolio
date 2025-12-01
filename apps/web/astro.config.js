@@ -69,6 +69,7 @@ export default defineConfig({
       }),
       AUTHOR_NAME: envField.string({ context: 'server', access: 'public', optional: false }),
       AUTHOR_EMAIL: envField.string({ context: 'server', access: 'public', optional: true }),
+      AUTHOR_LOCATION: envField.string({ context: 'server', access: 'public', optional: true }),
       SOCIALS_GITHUB: envField.string({
         context: 'server',
         access: 'public',

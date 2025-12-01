@@ -1,7 +1,6 @@
 ---
 import authorImage from '$/assets/author.png';
 import config from '$/config';
-import { obfuscate } from '$/utils/obfuscator';
 import { Image } from 'astro:assets';
 
 const { author, socials } = config;
@@ -71,19 +70,7 @@ const { author, socials } = config;
           </a>
         )
       }
-      {
-        author.email && (
-          <a
-            id="email-link"
-            role="button"
-            class="btn btn-sm btn-primary"
-            href={`mailto:${obfuscate(author.email)}`}
-            data-email-href={`mailto:${obfuscate(author.email)}`}
-            aria-label="Send an email">
-            Say hello
-          </a>
-        )
-      }
+      <a role="button" class="btn btn-sm btn-primary" href="/contact">Say hello</a>
     </div>
   </div>
   <div class="order-first flex items-start justify-center @xl/main:order-last">
@@ -95,17 +82,3 @@ const { author, socials } = config;
     </div>
   </div>
 </section>
-
-<script>
-  import { deobfuscate } from '$/utils/obfuscator';
-
-  const emailLink = document.getElementById('email-link') as HTMLAnchorElement;
-  if (emailLink) {
-    const obfuscatedHref = emailLink.getAttribute('data-email-href');
-    if (obfuscatedHref) {
-      const obfuscatedEmail = obfuscatedHref.replace('mailto:', '');
-      const deobfuscatedEmail = deobfuscate(obfuscatedEmail);
-      emailLink.href = `mailto:${deobfuscatedEmail}`;
-    }
-  }
-</script>
