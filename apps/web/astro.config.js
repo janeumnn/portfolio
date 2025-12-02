@@ -14,6 +14,7 @@ export default defineConfig({
   vite: {
     plugins: [tailwindcss()]
   },
+  trailingSlash: 'never',
   integrations: [
     sitemap(),
     robotsTxt({
