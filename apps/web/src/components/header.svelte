@@ -3,21 +3,12 @@
   import { useEventListener } from 'runed';
   import { scale } from 'svelte/transition';
 
-  let isMinimized = $state(false);
+  let isMinimized = $state(true);
 
   useEventListener(
     () => window,
     'scroll',
-    () => {
-      const isAtBottom =
-        window.innerHeight + Math.ceil(window.scrollY) >= document.documentElement.scrollHeight - 2;
-
-      if (isAtBottom) {
-        isMinimized = false;
-      } else {
-        isMinimized = true;
-      }
-    }
+    () => (isMinimized = true)
   );
 
   function toggleColorTheme() {
