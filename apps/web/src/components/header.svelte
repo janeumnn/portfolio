@@ -25,15 +25,14 @@
         c0-10.4-4.8-16.32-13.36-16.32c-6.48,0-10,3.44-11.68,7.92h-0.4v-6.96H32.08v41.76H42.4z" />
     </svg>
   {:else}
-    <span class="icon-[ri--contract-up-down-line] size-7" in:fade={{ duration: 500, delay: 250 }}>
-    </span>
+    <span class="icon-[ri--circle-line] size-6" in:fade={{ duration: 500, delay: 250 }}></span>
   {/if}
 {/snippet}
 
 <header
   class={cn(
     'fixed right-0 bottom-4 left-0 z-10 mx-auto h-14 transition-all duration-500 ease-in-out',
-    isMinimized ? 'w-14' : 'w-2xs px-6 sm:w-xs md:w-sm'
+    { 'w-14': isMinimized, 'w-2xs px-6 sm:w-xs md:w-sm': !isMinimized }
   )}>
   <div class="relative h-full w-full rounded-box bg-base-300 shadow-md outline outline-neutral/5">
     <div class="flex h-full items-center justify-center p-4">
