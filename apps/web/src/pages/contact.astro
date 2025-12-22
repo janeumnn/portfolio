@@ -1,4 +1,5 @@
 ---
+import ContactForm from '$/components/contact-form.svelte';
 import config from '$/config';
 import PageLayout from '$/layouts/page-layout.astro';
 import { obfuscate } from '$/utils/obfuscator';
@@ -17,20 +18,7 @@ const { author, socials } = config;
             proposal, I'd love to hear from you.
           </p>
         </div>
-        <form class="flex w-full max-w-lg flex-col gap-4">
-          <div class="flex flex-col gap-4 @md/main:flex-row">
-            <label class="input w-full">
-              <span class="icon-[ri--user-line] w-5"></span>
-              <input type="text" placeholder="Your Name" required />
-            </label>
-            <label class="validator input w-full">
-              <span class="icon-[ri--mail-line] w-5"></span>
-              <input type="email" placeholder="Your Email" required />
-            </label>
-          </div>
-          <textarea name="message" placeholder="Say hello..." class="textarea w-full"></textarea>
-          <button type="submit" class="btn mx-auto w-40 btn-primary">Send</button>
-        </form>
+        <ContactForm client:load />
         <div class="mt-4 flex w-full flex-col items-center gap-2 p-2 pt-0 text-center">
           {author.location && <span class="text-sm">Based in {author.location}</span>}
           <div class="mt-2 flex flex-wrap justify-center gap-3 @md/main:gap-4">
@@ -91,18 +79,18 @@ const { author, socials } = config;
       </div>
     </div>
   </Fragment>
-</PageLayout>
 
-<script>
-  import { deobfuscate } from '$/utils/obfuscator';
+  <script>
+    import { deobfuscate } from '$/utils/obfuscator';
 
-  const emailLink = document.getElementById('email-link') as HTMLAnchorElement;
-  if (emailLink) {
-    const obfuscatedHref = emailLink.getAttribute('data-email-href');
-    if (obfuscatedHref) {
-      const obfuscatedEmail = obfuscatedHref.replace('mailto:', '');
-      const deobfuscatedEmail = deobfuscate(obfuscatedEmail);
-      emailLink.href = `mailto:${deobfuscatedEmail}`;
+    const emailLink = document.getElementById('email-link') as HTMLAnchorElement;
+    if (emailLink) {
+      const obfuscatedHref = emailLink.getAttribute('data-email-href');
+      if (obfuscatedHref) {
+        const obfuscatedEmail = obfuscatedHref.replace('mailto:', '');
+        const deobfuscatedEmail = deobfuscate(obfuscatedEmail);
+        emailLink.href = `mailto:${deobfuscatedEmail}`;
+      }
     }
-  }
-</script>
+  </script>
+</PageLayout>

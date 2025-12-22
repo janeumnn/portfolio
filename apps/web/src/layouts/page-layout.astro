@@ -4,6 +4,7 @@ import type { Props as SEOProps } from 'astro-seo';
 import Header from '$/components/header.svelte';
 import { SEO } from 'astro-seo';
 import { Font } from 'astro:assets';
+import { Toaster } from 'svelte-sonner';
 
 interface Props {
   seo?: SEOProps;
@@ -51,6 +52,17 @@ const { seo } = Astro.props;
     </script>
   </head>
   <body class="antialiased">
+    <Toaster
+      client:load
+      position="top-center"
+      offset="24px"
+      toastOptions={{
+        unstyled: true,
+        classes: {
+          toast: 'alert w-full text-base-content bg-base-100'
+        }
+      }}
+    />
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-w-2xs flex-col">
