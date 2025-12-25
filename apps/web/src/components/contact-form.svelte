@@ -1,5 +1,8 @@
 <script lang="ts">
+  import type { ApiError } from '@portfolio/api/client';
   import type { InferInput } from 'valibot';
+  import { client } from '@portfolio/api/client';
+  import { tryCatch } from '@portfolio/utils';
   import cn from '$/utils/cn';
   import { toast } from 'svelte-sonner';
   import * as v from 'valibot';
@@ -58,6 +61,15 @@
     keys.forEach((k) => (touched[k] = true));
 
     if (validate()) {
+      const [, error] = await tryCatch(
+        client.parse(client.fetch.api.contact.$post({ form: formData }))
+      );
+
+      if (error) {
+        toast.error(`Server says: ${(error as ApiError).detail.data} :(`);
+        return;
+      }
+
       toast.success('Successfully sent message :)');
     } else {
       const firstErrorKey = keys.find((k) => errors[k]);

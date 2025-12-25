@@ -15,6 +15,8 @@
   "dependencies": {
     "@astrojs/sitemap": "3.6.0",
     "@astrojs/svelte": "7.2.0",
+    "@portfolio/api": "workspace:*",
+    "@portfolio/utils": "workspace:*",
     "astro": "5.14.5",
     "astro-robots-txt": "1.0.0",
     "astro-seo": "0.8.4",

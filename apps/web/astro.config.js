@@ -12,7 +12,10 @@ export default defineConfig({
   site: SITE_URL,
   server: { port: 1337, host: true },
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    ssr: {
+      external: ['node:os', 'path']
+    }
   },
   trailingSlash: 'never',
   integrations: [
@@ -94,6 +97,16 @@ export default defineConfig({
         access: 'public',
         optional: true,
         url: true
+      }),
+      CF_EMAIL_ROUTING_FROM: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
+      }),
+      CF_EMAIL_ROUTING_TO: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
       })
     }
   }
