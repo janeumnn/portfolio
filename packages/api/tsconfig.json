@@ -1,0 +1,19 @@
+{
+  "extends": ["@portfolio/ts-config/base"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "composite": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "es2022",
+    "moduleResolution": "bundler",
+    "paths": {
+      "#*": ["./src/*"]
+    },
+    "preserveSymlinks": true,
+    "target": "es2022",
+    "types": ["@cloudflare/workers-types"]
+  },
+  "references": [{ "path": "../../packages/utils" }],
+  "include": ["src"],
+  "exclude": ["eslint.config.js", "prettier.config.js"]
+}
