@@ -145,11 +145,19 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
         run: |
+          SITE_URL="https://portfolio-pr-${{ github.event.pull_request.number }}.${{ vars.WORKER_DEV_URL }}"
+
+          echo "::add-mask::$SITE_URL"
+          echo "SITE_URL=$SITE_URL" >> $GITHUB_ENV
+
           SECRETS_JSON=$(npx @dotenvx/dotenvx get -f .env.preview | jq 'with_entries(select(.key | startswith("DOTENV_PUBLIC_KEY") | not))')
 
-          echo "WORKER_SECRET_NAMES<<EOF" >> $GITHUB_ENV
-          echo "$SECRETS_JSON" | jq -r 'keys[]' >> $GITHUB_ENV
-          echo "EOF" >> $GITHUB_ENV
+          {
+            echo "WORKER_SECRET_NAMES<<EOF"
+            echo "$SECRETS_JSON" | jq -r 'keys[]'
+            echo "SITE_URL"
+            echo "EOF"
+          } >> $GITHUB_ENV
 
           echo "$SECRETS_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' | while read -r line; do
              val="${line#*=}"
@@ -165,7 +173,8 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
-          command: deploy --name ${{ env.WEB_WORKER_NAME }} --env preview
+          environment: preview
+          command: deploy --name ${{ env.WEB_WORKER_NAME }}
           secrets: ${{ env.WORKER_SECRET_NAMES }}
 
       - name: Get preview URL
