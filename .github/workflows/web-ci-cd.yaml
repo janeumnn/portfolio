@@ -125,6 +125,7 @@ jobs:
         with:
           sparse-checkout: |
             apps/web/wrangler.jsonc
+            apps/web/.env.preview
           sparse-checkout-cone-mode: false
 
       - name: Restore build output
@@ -172,7 +173,7 @@ jobs:
         uses: actions/github-script@v8
         with:
           script: |
-            const previewUrl = 'https://${{ env.WEB_WORKER_NAME }}.${{ vars.WORKER_DEV_URL }}'';
+            const previewUrl = 'https://${{ env.WEB_WORKER_NAME }}.${{ vars.WORKER_DEV_URL }}';
             core.setOutput('url', previewUrl);
 
   deploy:
