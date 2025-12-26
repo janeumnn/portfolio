@@ -182,6 +182,7 @@ jobs:
         with:
           sparse-checkout: |
             apps/web/wrangler.jsonc
+            apps/web/.env.production
           sparse-checkout-cone-mode: false
 
       - name: Restore build output
@@ -199,13 +200,17 @@ jobs:
 
       - name: Deploy
         id: deploy
-        uses: cloudflare/wrangler-action@v3.12.0
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
+          preCommands: |
+            npx @dotenvx/dotenvx get -f .env.production | jq 'del(.DOTENV_PUBLIC_KEY_PRODUCTION)' | npx wrangler secret bulk --env=""
           command: deploy --domains ${{ vars.WEB_URL }} www.${{ vars.WEB_URL }}
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
 
       - name: Get deployment URL
         id: deployment
