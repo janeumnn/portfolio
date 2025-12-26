@@ -81,14 +81,12 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
-          WEB_PREVIEW_BASE_URL: ${{ vars.WEB_PREVIEW_BASE_URL }}
         with:
           script: |
             const {
               GITHUB_REF_NAME,
               DOTENV_PRIVATE_KEY_PREVIEW,
               DOTENV_PRIVATE_KEY_PRODUCTION,
-              WEB_PREVIEW_BASE_URL
             } = process.env
 
             if (GITHUB_REF_NAME === 'main') {
@@ -97,7 +95,7 @@ jobs:
             } else {
               core.exportVariable('DOTENV_PRIVATE_KEY_PREVIEW', DOTENV_PRIVATE_KEY_PREVIEW);
               core.exportVariable('DOTENV_ENV', 'preview');
-              core.exportVariable('SITE_URL', `https://pr-${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
+              core.exportVariable('SITE_URL', `https://portfolio-pr-${context.payload.pull_request?.number}.${{ vars.WORKER_DEV_URL }}`);
             }
 
       - name: Build
@@ -119,6 +117,8 @@ jobs:
     defaults:
       run:
         working-directory: apps/web
+    env:
+      WEB_WORKER_NAME: portfolio-pr-${{ github.event.pull_request.number }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
@@ -140,6 +140,22 @@ jobs:
         with:
           node-version: 20
 
+      - name: Prepare secrets
+        env:
+          DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
+        run: |
+          SECRETS_JSON=$(npx @dotenvx/dotenvx get -f .env.preview | jq 'with_entries(select(.key | startswith("DOTENV_PUBLIC_KEY") | not))')
+
+          echo "WORKER_SECRET_NAMES<<EOF" >> $GITHUB_ENV
+          echo "$SECRETS_JSON" | jq -r 'keys[]' >> $GITHUB_ENV
+          echo "EOF" >> $GITHUB_ENV
+
+          echo "$SECRETS_JSON" | jq -r 'to_entries[] | "\(.key)=\(.value)"' | while read -r line; do
+             val="${line#*=}"
+             echo "::add-mask::$val"
+             echo "$line" >> $GITHUB_ENV
+          done
+
       - name: Deploy
         id: deploy
         uses: cloudflare/wrangler-action@v3.12.0
@@ -148,16 +164,15 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
-          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+          command: deploy --name ${{ env.WEB_WORKER_NAME }} --env preview
+          secrets: ${{ env.WORKER_SECRET_NAMES }}
 
       - name: Get preview URL
         id: preview
         uses: actions/github-script@v8
         with:
           script: |
-            const prNumber = context.payload.pull_request.number;
-            const baseUrl = '${{ vars.WEB_PREVIEW_BASE_URL }}';
-            const previewUrl = `https://pr-${prNumber}-${baseUrl}`;
+            const previewUrl = 'https://${{ env.WEB_WORKER_NAME }}.${{ vars.WORKER_DEV_URL }}'';
             core.setOutput('url', previewUrl);
 
   deploy:
