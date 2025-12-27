@@ -27,8 +27,6 @@ const contact = factory.createApp().post(
 
     const { name, email, message, verification } = c.req.valid('form');
 
-    await new Promise((resolve) => setTimeout(resolve, 10000));
-
     if (CF_TURNSTILE_SECRET_KEY) {
       if (!verification) return c.text('Verification token is missing.', 400);
 
