@@ -16,6 +16,7 @@
     "@astrojs/cloudflare": "12.6.12",
     "@astrojs/sitemap": "3.6.0",
     "@astrojs/svelte": "7.2.0",
+    "@formisch/svelte": "0.5.6",
     "@portfolio/api": "workspace:*",
     "@portfolio/utils": "workspace:*",
     "astro": "5.14.5",
@@ -25,6 +26,7 @@
     "sharp": "0.34.5",
     "svelte": "5.40.1",
     "svelte-sonner": "1.0.7",
+    "svelte-turnstile": "0.11.0",
     "typewriter-effect": "2.22.0",
     "valibot": "1.2.0"
   },

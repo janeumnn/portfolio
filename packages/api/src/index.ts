@@ -1,5 +1,5 @@
-import factory from '#/factory';
 import contact from '#/routes/contact';
+import factory from '#/utils/factory';
 
 const app = factory.createApp().basePath('/api').route('/contact', contact);
 

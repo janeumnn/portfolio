@@ -47,6 +47,9 @@ importers:
       '@astrojs/svelte':
         specifier: 7.2.0
         version: 7.2.0(@types/node@24.3.0)(astro@5.14.5(@types/node@24.3.0)(jiti@2.6.1)(lightningcss@1.30.1)(rollup@4.53.2)(typescript@5.9.2)(yaml@2.6.1))(jiti@2.6.1)(lightningcss@1.30.1)(svelte@5.40.1)(typescript@5.9.2)(yaml@2.6.1)
+      '@formisch/svelte':
+        specifier: 0.5.6
+        version: 0.5.6(svelte@5.40.1)(typescript@5.9.2)(valibot@1.2.0(typescript@5.9.2))
       '@portfolio/api':
         specifier: workspace:*
         version: link:../../packages/api
@@ -74,6 +77,9 @@ importers:
       svelte-sonner:
         specifier: 1.0.7
         version: 1.0.7(svelte@5.40.1)
+      svelte-turnstile:
+        specifier: 0.11.0
+        version: 0.11.0(svelte@5.40.1)
       typewriter-effect:
         specifier: 2.22.0
         version: 2.22.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -173,12 +179,15 @@ importers:
 
   packages/api:
     dependencies:
-      '@hono/standard-validator':
-        specifier: 0.2.1
-        version: 0.2.1(@standard-schema/spec@1.1.0)(hono@4.11.0)
+      '@hono/valibot-validator':
+        specifier: 0.6.1
+        version: 0.6.1(hono@4.11.0)(valibot@1.2.0(typescript@5.9.2))
       hono:
         specifier: 4.11.0
         version: 4.11.0
+      ky:
+        specifier: 1.14.2
+        version: 1.14.2
       mimetext:
         specifier: 3.0.27
         version: 3.0.27
@@ -801,11 +810,21 @@ packages:
     resolution: {integrity: sha512-Z5kJ+wU3oA7MMIqVR9tyZRtjYPr4OC004Q4Rw7pgOKUOKkJfZ3O24nz3WYfGRpMDNmcOi3TwQOmgm7B7Tpii0w==}
     engines: {node: ^18.18.0 || ^20.9.0 || >=21.1.0}
 
-  '@hono/standard-validator@0.2.1':
-    resolution: {integrity: sha512-uF1W7/iSWi0r5Mugj5ZzdlCVp/KeGatS6JYt+Eht9xKO0IDtdZbdaLApgjrzHINQQa+Wnxw2pcX6EfO+vgB+Wg==}
+  '@formisch/svelte@0.5.6':
+    resolution: {integrity: sha512-7CtS3LzR4DrbVACiuC0/f/grNVPCx6x9JDkUbam3OwJDHaUDzyhjidYFLa6KIa+96chbPf1zlqrv3XM9fUooeA==}
     peerDependencies:
-      '@standard-schema/spec': 1.0.0
+      svelte: ^5.29.0
+      typescript: '>=5'
+      valibot: ^1.0.0
+    peerDependenciesMeta:
+      typescript:
+        optional: true
+
+  '@hono/valibot-validator@0.6.1':
+    resolution: {integrity: sha512-rqKhQJI8IVR8gRRNHHf2wGtIT7sKEqV1KoGL5f2SocNytl+tBNn4EtRu4zfk/D6axgWSswnaxeiuJhM5yNFrCg==}
+    peerDependencies:
       hono: '>=3.9.0'
+      valibot: ^1.0.0 || ^1.0.0-beta.4 || ^1.0.0-rc
 
   '@humanfs/core@0.19.1':
     resolution: {integrity: sha512-5DyQ4+1JEUzejeK1JGICcideyfUbGixgS9jNgex5nqkW+cY7WZhxBigmieN5Qnw9ZosSNVC9KQKyb+GUaGyKUA==}
@@ -2446,6 +2465,10 @@ packages:
   kolorist@1.8.0:
     resolution: {integrity: sha512-Y+60/zizpJ3HRH8DCss+q95yr6145JXZo46OTpFvDZWLfRCE4qChOyk1b26nMaNpfHHgxagk9dXT5OP0Tfe+dQ==}
 
+  ky@1.14.2:
+    resolution: {integrity: sha512-q3RBbsO5A5zrPhB6CaCS8ZUv+NWCXv6JJT4Em0i264G9W0fdPB8YRfnnEi7Dm7X7omAkBIPojzYJ2D1oHTHqug==}
+    engines: {node: '>=18'}
+
   lefthook-darwin-arm64@1.12.3:
     resolution: {integrity: sha512-j1lwaosWRy3vhz8oQgCS1M6EUFN95aIYeNuqkczsBoAA6BDNAmVP1ctYEIYUK4bYaIgENbqbA9prYMAhyzh6Og==}
     cpu: [arm64]
@@ -3412,6 +3435,11 @@ packages:
     peerDependencies:
       svelte: ^5.0.0
 
+  svelte-turnstile@0.11.0:
+    resolution: {integrity: sha512-2LFklx9JVsR3fJ7e3fGG1HEAWWEqRq1WfNaVrKgZJ+pzfY2NColiH+wH0kK2yX3DrcGLiJ9vBeTyiLFWotKpLA==}
+    peerDependencies:
+      svelte: ^3.58.0 || ^4.0.0 || ^5.0.0
+
   svelte2tsx@0.7.42:
     resolution: {integrity: sha512-PSNrKS16aVdAajoFjpF5M0t6TA7ha7GcKbBajD9RG3M+vooAuvLnWAGUSC6eJL4zEOVbOWKtcS2BuY4rxPljoA==}
     peerDependencies:
@@ -3495,6 +3523,9 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
+
+  turnstile-types@1.2.3:
+    resolution: {integrity: sha512-EDjhDB9TDwda2JRbhzO/kButPio3JgrC3gXMVAMotxldybTCJQVMvPNJ89rcAiN9vIrCb2i1E+VNBCqB8wue0A==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -4558,10 +4589,17 @@ snapshots:
       '@eslint/core': 0.15.2
       levn: 0.4.1
 
-  '@hono/standard-validator@0.2.1(@standard-schema/spec@1.1.0)(hono@4.11.0)':
+  '@formisch/svelte@0.5.6(svelte@5.40.1)(typescript@5.9.2)(valibot@1.2.0(typescript@5.9.2))':
     dependencies:
-      '@standard-schema/spec': 1.1.0
+      svelte: 5.40.1
+      valibot: 1.2.0(typescript@5.9.2)
+    optionalDependencies:
+      typescript: 5.9.2
+
+  '@hono/valibot-validator@0.6.1(hono@4.11.0)(valibot@1.2.0(typescript@5.9.2))':
+    dependencies:
       hono: 4.11.0
+      valibot: 1.2.0(typescript@5.9.2)
 
   '@humanfs/core@0.19.1': {}
 
@@ -4971,7 +5009,8 @@ snapshots:
 
   '@speed-highlight/core@1.2.12': {}
 
-  '@standard-schema/spec@1.1.0': {}
+  '@standard-schema/spec@1.1.0':
+    optional: true
 
   '@sveltejs/acorn-typescript@1.0.5(acorn@8.15.0)':
     dependencies:
@@ -6292,6 +6331,8 @@ snapshots:
 
   kolorist@1.8.0: {}
 
+  ky@1.14.2: {}
+
   lefthook-darwin-arm64@1.12.3:
     optional: true
 
@@ -7463,6 +7504,11 @@ snapshots:
       runed: 0.28.0(svelte@5.40.1)
       svelte: 5.40.1
 
+  svelte-turnstile@0.11.0(svelte@5.40.1):
+    dependencies:
+      svelte: 5.40.1
+      turnstile-types: 1.2.3
+
   svelte2tsx@0.7.42(svelte@5.40.1)(typescript@5.9.2):
     dependencies:
       dedent-js: 1.0.1
@@ -7545,6 +7591,8 @@ snapshots:
       typescript: 5.9.2
 
   tslib@2.8.1: {}
+
+  turnstile-types@1.2.3: {}
 
   type-check@0.4.0:
     dependencies:

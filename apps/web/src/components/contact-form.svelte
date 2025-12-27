@@ -1,152 +1,136 @@
 <script lang="ts">
+  import type { SubmitHandler } from '@formisch/svelte';
   import type { ApiError } from '@portfolio/api/client';
-  import type { InferInput } from 'valibot';
+  import { createForm, Field, Form, reset, setInput } from '@formisch/svelte';
   import { client } from '@portfolio/api/client';
   import { tryCatch } from '@portfolio/utils';
   import cn from '$/utils/cn';
+  import { CF_TURNSTILE_SITE_KEY } from 'astro:env/client';
   import { toast } from 'svelte-sonner';
+  import { Turnstile } from 'svelte-turnstile';
   import * as v from 'valibot';
 
+  const verificationSchema = CF_TURNSTILE_SITE_KEY
+    ? v.pipe(
+        v.string('Verification is required'),
+        v.check(
+          (input) => input !== 'error' && input !== 'expired',
+          'Verification is invalid or has expired.'
+        )
+      )
+    : v.optional(v.string());
+
   const schema = v.object({
-    name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
-    email: v.pipe(
-      v.string(),
-      v.minLength(1, 'Email is required'),
-      v.email('Please enter a valid email address')
-    ),
-    message: v.pipe(v.string(), v.minLength(1, 'Message is required'))
+    name: v.pipe(v.string('Name is required'), v.trim()),
+    email: v.pipe(v.string('Email is required'), v.trim(), v.email('Email address is not valid')),
+    message: v.pipe(v.string('Message is required'), v.trim()),
+    verification: verificationSchema
   });
 
-  type FormSchema = InferInput<typeof schema>;
-  type FormKey = keyof FormSchema;
+  const form = createForm({ schema });
+  let resetVerification = $state<() => void>();
 
-  let formData = $state<FormSchema>({ name: '', email: '', message: '' });
-  let touched = $state<Partial<Record<FormKey, boolean>>>({});
-  let errors = $state<Partial<Record<FormKey, [string, ...string[]]>>>({});
+  const handleSubmit: SubmitHandler<typeof schema> = async (values) => {
+    const [, error] = await tryCatch(
+      client.parse(client.fetch.api.contact.$post({ form: values }))
+    );
 
-  function validate() {
-    const result = v.safeParse(schema, formData);
-
-    if (result.success) {
-      errors = {};
-      return true;
+    if (error) {
+      toast.error(`Server says: ${(error as ApiError).detail?.data || 'Error'} :(`);
+      reset(form, { keepInput: true });
+      resetVerification?.();
+      return;
     }
 
-    errors = v.flatten<typeof schema>(result.issues).nested || {};
-    return false;
-  }
-
-  function getFieldError(field: FormKey): string | undefined {
-    return touched[field] ? errors[field]?.[0] : undefined;
-  }
-
-  function handleBlur(field: FormKey) {
-    touched[field] = true;
-    validate();
-  }
-
-  function handleInput(field: FormKey) {
-    // only re-validate on keystroke if already visited
-    // and field currently has an error
-    if (touched[field] && errors[field]) {
-      validate();
-    }
-  }
-
-  async function handleSubmit(e: SubmitEvent) {
-    e.preventDefault();
-
-    // mark all as touched so errors appear
-    const keys = Object.keys(formData) as FormKey[];
-    keys.forEach((k) => (touched[k] = true));
-
-    if (validate()) {
-      const [, error] = await tryCatch(
-        client.parse(client.fetch.api.contact.$post({ form: formData }))
-      );
-
-      if (error) {
-        toast.error(`Server says: ${(error as ApiError).detail.data} :(`);
-        return;
-      }
-
-      toast.success('Successfully sent message :)');
-    } else {
-      const firstErrorKey = keys.find((k) => errors[k]);
-      if (firstErrorKey) {
-        document.getElementsByName(firstErrorKey)[0]?.focus();
-      }
-    }
-  }
+    toast.success('Successfully sent message :)');
+    reset(form);
+    resetVerification?.();
+  };
 </script>
 
-{#snippet fieldError(field: FormKey)}
-  {@const error = getFieldError(field)}
-  {#if error}
-    <em id="{field}-error" class="mt-1 ml-1 text-xs text-error">
-      {error}
-    </em>
-  {/if}
-{/snippet}
-
-<form
-  id="contact-form"
-  class="flex w-full max-w-lg flex-col gap-4"
+<Form
+  of={form}
   onsubmit={handleSubmit}
-  novalidate>
+  id="contact-form"
+  autocomplete="off"
+  class="flex w-full max-w-lg flex-col gap-4">
   <div class="flex flex-col gap-4 @md/main:flex-row">
-    <div class="group w-full">
-      <label
-        class={cn('input flex w-full items-center gap-2', {
-          'input-error': !!getFieldError('name')
-        })}>
-        <span class="icon-[ri--user-line] w-5"></span>
-        <input
-          name="name"
-          type="text"
-          placeholder="Your Name"
-          bind:value={formData.name}
-          onblur={() => handleBlur('name')}
-          oninput={() => handleInput('name')}
-          aria-invalid={!!getFieldError('name')}
-          aria-describedby="name-error" />
-      </label>
-      {@render fieldError('name')}
-    </div>
+    <Field of={form} path={['name']}>
+      {#snippet children(field)}
+        <div class="group w-full">
+          <label
+            class={cn('input flex w-full items-center gap-2', { 'input-error': !!field.errors })}>
+            <span class="icon-[ri--user-line] w-5"></span>
+            <input {...field.props} value={field.input} type="text" placeholder="Your Name" />
+          </label>
+          {#if field.errors}
+            <em class="mt-1 ml-1 text-xs text-error">{field.errors[0]}</em>
+          {/if}
+        </div>
+      {/snippet}
+    </Field>
 
-    <div class="group w-full">
-      <label
-        class={cn('input flex w-full items-center gap-2', {
-          'input-error': !!getFieldError('email')
-        })}>
-        <span class="icon-[ri--mail-line] w-5"></span>
-        <input
-          name="email"
-          type="email"
-          placeholder="Your Email"
-          bind:value={formData.email}
-          onblur={() => handleBlur('email')}
-          oninput={() => handleInput('email')}
-          aria-invalid={!!getFieldError('email')}
-          aria-describedby="email-error" />
-      </label>
-      {@render fieldError('email')}
-    </div>
+    <Field of={form} path={['email']}>
+      {#snippet children(field)}
+        <div class="group w-full">
+          <label
+            class={cn('input flex w-full items-center gap-2', { 'input-error': !!field.errors })}>
+            <span class="icon-[ri--mail-line] w-5"></span>
+            <input {...field.props} value={field.input} type="email" placeholder="Your Email" />
+          </label>
+          {#if field.errors}
+            <em class="mt-1 ml-1 text-xs text-error">{field.errors[0]}</em>
+          {/if}
+        </div>
+      {/snippet}
+    </Field>
   </div>
 
-  <div class="group w-full">
-    <textarea
-      name="message"
-      placeholder="Say hello..."
-      class={cn('textarea w-full', { 'textarea-error': !!getFieldError('message') })}
-      bind:value={formData.message}
-      onblur={() => handleBlur('message')}
-      oninput={() => handleInput('message')}
-      aria-invalid={!!getFieldError('message')}
-      aria-describedby="message-error">
-    </textarea>
-    {@render fieldError('message')}
-  </div>
+  <Field of={form} path={['message']}>
+    {#snippet children(field)}
+      <div class="group w-full">
+        <label>
+          <!-- prettier-ignore -->
+          <textarea
+            {...field.props}
+            value={field.input}
+            placeholder="Say hello..."
+            class={cn('textarea w-full', { 'textarea-error': !!field.errors })}></textarea>
+        </label>
+        {#if field.errors}
+          <em class="mt-1 ml-1 text-xs text-error">{field.errors[0]}</em>
+        {/if}
+      </div>
+    {/snippet}
+  </Field>
 
-  <button type="submit" class="btn mx-auto w-40 btn-primary">Send</button>
-</form>
+  <Field of={form} path={['verification']}>
+    {#snippet children(field)}
+      <div class="flex w-full flex-col items-center gap-4">
+        {#if CF_TURNSTILE_SITE_KEY}
+          <div class="w-full">
+            <Turnstile
+              siteKey={CF_TURNSTILE_SITE_KEY}
+              size="flexible"
+              bind:reset={resetVerification}
+              on:callback={(e) => setInput(form, { path: ['verification'], input: e.detail.token })}
+              on:error={() => setInput(form, { path: ['verification'], input: 'error' })}
+              on:expired={() => setInput(form, { path: ['verification'], input: 'expired' })} />
+          </div>
+        {/if}
+
+        <button type="submit" class="btn w-40 btn-primary" disabled={form.isSubmitting}>
+          {#if form.isSubmitting}
+            <span class="loading loading-sm loading-dots"></span>
+          {:else}
+            Send
+          {/if}
+        </button>
+
+        {#if field.errors}
+          <em class="text-center text-xs text-error">{field.errors[0]}</em>
+        {/if}
+      </div>
+    {/snippet}
+  </Field>
+</Form>

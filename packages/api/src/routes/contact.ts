@@ -1,38 +1,51 @@
-import { sValidator } from '@hono/standard-validator';
+import { vValidator } from '@hono/valibot-validator';
 import { tryCatch } from '@portfolio/utils';
-import factory from '#/factory';
+import factory from '#/utils/factory';
+import { validateToken } from '#utils/turnstile';
 import { env, getRuntimeKey } from 'hono/adapter';
 import { createMimeMessage } from 'mimetext';
 import * as v from 'valibot';
 
 const CreateContactSchema = v.object({
-  name: v.pipe(v.string(), v.minLength(1, 'Name is required')),
-  email: v.pipe(
-    v.string(),
-    v.minLength(1, 'Email is required'),
-    v.email('Please enter a valid email address')
-  ),
-  message: v.pipe(v.string(), v.minLength(1, 'Message is required'))
+  name: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+  email: v.pipe(v.string(), v.trim(), v.nonEmpty(), v.email()),
+  message: v.pipe(v.string(), v.trim(), v.nonEmpty()),
+  verification: v.optional(v.string())
 });
 
 const contact = factory.createApp().post(
   '/',
-  sValidator('form', CreateContactSchema, (result, c) => {
-    if (!result.success) return c.text(result.error[0].message, 400);
+  vValidator('form', CreateContactSchema, (result, c) => {
+    if (!result.success) return c.text(result.issues[0].message, 400);
   }),
   async (c) => {
-    if (getRuntimeKey() !== 'workerd' && !c.env?.CONTACT_MAIL) {
+    const { CF_EMAIL_ROUTING_FROM, CF_EMAIL_ROUTING_TO, CF_TURNSTILE_SECRET_KEY } = env<{
+      CF_EMAIL_ROUTING_FROM?: string;
+      CF_EMAIL_ROUTING_TO?: string;
+      CF_TURNSTILE_SECRET_KEY?: string;
+    }>(c);
+
+    const { name, email, message, verification } = c.req.valid('form');
+
+    await new Promise((resolve) => setTimeout(resolve, 10000));
+
+    if (CF_TURNSTILE_SECRET_KEY) {
+      if (!verification) return c.text('Verification token is missing.', 400);
+
+      const { error } = await validateToken(verification, CF_TURNSTILE_SECRET_KEY);
+      if (error) return c.text(error, 403);
+    }
+
+    if (
+      getRuntimeKey() !== 'workerd' ||
+      !c.env?.CONTACT_MAIL ||
+      !CF_EMAIL_ROUTING_FROM ||
+      !CF_EMAIL_ROUTING_TO
+    ) {
       return c.text('Service currently unavailable', 503);
     }
 
     const { EmailMessage } = await import('cloudflare:email');
-
-    const { CF_EMAIL_ROUTING_FROM, CF_EMAIL_ROUTING_TO } = env<{
-      CF_EMAIL_ROUTING_FROM: string;
-      CF_EMAIL_ROUTING_TO: string;
-    }>(c);
-
-    const { name, email, message } = c.req.valid('form');
 
     const mimeMessage = createMimeMessage();
 
@@ -54,11 +67,9 @@ const contact = factory.createApp().post(
       mimeMessage.asRaw()
     );
 
-    const [, error] = await tryCatch(() => c.env.CONTACT_MAIL.send(emailMessage));
+    const [, error] = await tryCatch(() => c.env.CONTACT_MAIL?.send(emailMessage));
 
-    if (error) {
-      return c.text('Failed to send message', 500);
-    }
+    if (error) return c.text('Failed to send message', 500);
 
     return c.json({ success: true });
   }

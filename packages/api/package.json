@@ -14,8 +14,9 @@
     "lint": "prettier --check . && eslint ."
   },
   "dependencies": {
-    "@hono/standard-validator": "0.2.1",
+    "@hono/valibot-validator": "0.6.1",
     "hono": "4.11.0",
+    "ky": "1.14.2",
     "mimetext": "3.0.27",
     "valibot": "1.2.0"
   },

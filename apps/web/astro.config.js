@@ -100,6 +100,16 @@ export default defineConfig({
         optional: true,
         url: true
       }),
+      CF_TURNSTILE_SITE_KEY: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
+      }),
+      CF_TURNSTILE_SECRET_KEY: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
+      }),
       CF_EMAIL_ROUTING_FROM: envField.string({
         context: 'server',
         access: 'secret',
