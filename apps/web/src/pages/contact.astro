@@ -1,13 +1,40 @@
 ---
+import type { Props as SEOProps } from 'astro-seo';
+import ogAuthorImage from '$/assets/og-author.jpeg';
 import ContactForm from '$/components/contact-form.svelte';
 import config from '$/config';
 import PageLayout from '$/layouts/page-layout.astro';
 import { obfuscate } from '$/utils/obfuscator';
+import { getImage } from 'astro:assets';
 
-const { author, socials } = config;
+const { author, socials, siteUrl } = config;
+
+const title = 'Contact';
+const description =
+  "Feel free to reach out! Whether you have a question, feedback, or a collaboration proposal, I'd love to hear from you.";
+
+const ogAuthorImageUrl = (await getImage({ src: ogAuthorImage, format: 'jpeg' })).src;
+
+const seo: SEOProps = {
+  title,
+  description,
+  canonical: `${siteUrl}/contact`,
+  openGraph: {
+    basic: {
+      title,
+      type: 'website',
+      url: `${siteUrl}/contact`,
+      image: ogAuthorImageUrl
+    },
+    optional: {
+      description,
+      siteName: 'n5n'
+    }
+  }
+};
 ---
 
-<PageLayout>
+<PageLayout seo={seo}>
   <Fragment slot="main">
     <div class="rounded-box bg-base-300 p-4">
       <div class="flex w-full flex-col items-center gap-8">
