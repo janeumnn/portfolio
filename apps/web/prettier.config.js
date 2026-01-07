@@ -13,6 +13,7 @@ export default {
   tailwindFunctions: ['cn', 'clsx'],
   overrides: [
     { files: '*.astro', options: { parser: 'astro' } },
-    { files: '*.svelte', options: { parser: 'svelte' } }
+    { files: '*.svelte', options: { parser: 'svelte' } },
+    { files: '*.mdx', options: { parser: 'mdx' } }
   ]
 };

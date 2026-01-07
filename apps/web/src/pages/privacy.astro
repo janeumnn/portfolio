@@ -1,0 +1,13 @@
+---
+import { Content as PrivacyPolicy } from '$/content/privacy-policy.mdx';
+import PageLayout from '$/layouts/page-layout.astro';
+---
+
+<PageLayout seo={{ title: 'Privacy Policy', noindex: true }}>
+  <Fragment slot="main">
+    <div
+      class="prose prose-sm max-w-none rounded-box bg-base-300 p-6 text-base-content prose-h2:text-2xl">
+      <PrivacyPolicy />
+    </div>
+  </Fragment>
+</PageLayout>
