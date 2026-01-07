@@ -1,0 +1,30 @@
+{
+  "name": "@portfolio/api",
+  "version": "0.0.1",
+  "type": "module",
+  "imports": {
+    "#*": "./src/*.ts"
+  },
+  "exports": {
+    ".": "./src/index.ts",
+    "./client": "./src/client.ts"
+  },
+  "scripts": {
+    "format": "prettier --write .",
+    "lint": "prettier --check . && eslint ."
+  },
+  "dependencies": {
+    "@hono/valibot-validator": "0.6.1",
+    "hono": "4.11.0",
+    "ky": "1.14.2",
+    "mimetext": "3.0.27",
+    "valibot": "1.2.0"
+  },
+  "devDependencies": {
+    "@cloudflare/workers-types": "4.20251221.0",
+    "@portfolio/eslint-config": "workspace:*",
+    "@portfolio/prettier-config": "workspace:*",
+    "@portfolio/ts-config": "workspace:*",
+    "@portfolio/utils": "workspace:*"
+  }
+}

@@ -4,6 +4,8 @@ import type { Props as SEOProps } from 'astro-seo';
 import Header from '$/components/header.svelte';
 import { SEO } from 'astro-seo';
 import { Font } from 'astro:assets';
+import { ClientRouter } from 'astro:transitions';
+import { Toaster } from 'svelte-sonner';
 
 interface Props {
   seo?: SEOProps;
@@ -47,16 +49,46 @@ const { seo } = Astro.props;
           attributes: true,
           attributeFilter: ['data-theme']
         });
+
+        document.addEventListener('astro:before-swap', (event) => {
+          event.newDocument.documentElement.setAttribute('data-theme', getThemePreference());
+        });
       }
     </script>
   </head>
   <body class="antialiased">
+    <ClientRouter fallback="swap" />
+    <Toaster
+      client:load
+      position="top-center"
+      offset="24px"
+      toastOptions={{
+        unstyled: true,
+        classes: {
+          toast: 'alert w-full text-base-content bg-base-100'
+        }
+      }}
+    />
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">
           <main class="@container/main mx-auto flex w-full max-w-3xl grow flex-col p-6 pb-22">
             <slot name="main" />
           </main>
+          <footer
+            class="mx-auto grid h-8 w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-6 text-xs text-base-content/80">
+            <div class="text-right">
+              <a role="link" class="link-hover" href="/privacy" aria-label="Go to Privacy">
+                Privacy
+              </a>
+            </div>
+            <div class="text-center">•</div>
+            <div class="text-left">
+              <a role="link" class="link-hover" href="/imprint" aria-label="Go to Imprint">
+                Imprint
+              </a>
+            </div>
+          </footer>
         </div>
         <Header client:load />
       </div>

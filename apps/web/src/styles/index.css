@@ -1,7 +1,7 @@
 @import 'tailwindcss';
 @plugin '@tailwindcss/typography';
 @plugin '@tailwindcss/aspect-ratio';
-@plugin "@iconify/tailwind4";
+@plugin '@iconify/tailwind4';
 
 @theme inline {
   --font-mono: var(--font-jetbrains-mono);
@@ -54,14 +54,14 @@
   }
 }
 
-@plugin "daisyui" {
+@plugin 'daisyui' {
   themes: light, dark;
   root: ':root';
   exclude: rootcolor, properties;
   logs: false;
 }
 
-@plugin "daisyui/theme" {
+@plugin 'daisyui/theme' {
   name: 'light';
   default: true;
   color-scheme: 'light';
@@ -96,7 +96,7 @@
   --noise: 0;
 }
 
-@plugin "daisyui/theme" {
+@plugin 'daisyui/theme' {
   name: 'dark';
   default: false;
   color-scheme: 'dark';

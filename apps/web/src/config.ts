@@ -1,5 +1,6 @@
 import {
   AUTHOR_EMAIL,
+  AUTHOR_LOCATION,
   AUTHOR_NAME,
   SITE_URL,
   SOCIALS_GITHUB,
@@ -12,7 +13,8 @@ export default {
   siteUrl: SITE_URL,
   author: {
     name: AUTHOR_NAME,
-    email: AUTHOR_EMAIL
+    email: AUTHOR_EMAIL,
+    location: AUTHOR_LOCATION
   },
   socials: {
     github: SOCIALS_GITHUB,

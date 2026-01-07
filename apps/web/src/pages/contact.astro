@@ -1,0 +1,123 @@
+---
+import type { Props as SEOProps } from 'astro-seo';
+import ogAuthorImage from '$/assets/og-author.jpeg';
+import ContactForm from '$/components/contact-form.svelte';
+import config from '$/config';
+import PageLayout from '$/layouts/page-layout.astro';
+import { obfuscate } from '$/utils/obfuscator';
+import { getImage } from 'astro:assets';
+
+const { author, socials, siteUrl } = config;
+
+const title = 'Contact';
+const description =
+  "Feel free to reach out! Whether you have a question, feedback, or a collaboration proposal, I'd love to hear from you.";
+
+const ogAuthorImageUrl = (await getImage({ src: ogAuthorImage, format: 'jpeg' })).src;
+
+const seo: SEOProps = {
+  title,
+  description,
+  canonical: `${siteUrl}/contact`,
+  openGraph: {
+    basic: {
+      title,
+      type: 'website',
+      url: `${siteUrl}/contact`,
+      image: ogAuthorImageUrl
+    },
+    optional: {
+      description,
+      siteName: 'n5n'
+    }
+  }
+};
+---
+
+<PageLayout seo={seo}>
+  <Fragment slot="main">
+    <div class="rounded-box bg-base-300 p-4">
+      <div class="flex w-full flex-col items-center gap-8">
+        <div class="flex w-full flex-col items-center gap-8 p-2 pb-0 text-center">
+          <h1 class="text-2xl font-bold">Let's get in touch</h1>
+          <p class="text-sm text-balance">
+            Feel free to reach out! Whether you have a question, feedback, or a collaboration
+            proposal, I'd love to hear from you.
+          </p>
+        </div>
+        <ContactForm client:load />
+        <div class="mt-4 flex w-full flex-col items-center gap-2 p-2 pt-0 text-center">
+          {author.location && <span class="text-sm">Based in {author.location}</span>}
+          <div class="mt-2 flex flex-wrap justify-center gap-3 @md/main:gap-4">
+            {
+              author.email && (
+                <a
+                  id="email-link"
+                  role="button"
+                  class="btn btn-circle btn-outline btn-sm"
+                  href={`mailto:${obfuscate(author.email)}`}
+                  data-email-href={`mailto:${obfuscate(author.email)}`}
+                  aria-label="Send an email">
+                  <span class="icon-[ri--mail-fill] h-full w-4" />
+                </a>
+              )
+            }
+            {
+              socials.github && (
+                <a
+                  role="button"
+                  class="btn btn-circle btn-outline btn-sm"
+                  href={socials.github}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Go to GitHub">
+                  <span class="icon-[ri--github-fill] h-full w-4" />
+                </a>
+              )
+            }
+            {
+              socials.linkedin && (
+                <a
+                  role="button"
+                  class="btn btn-circle btn-outline btn-sm"
+                  href={socials.linkedin}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Go to LinkedIn">
+                  <span class="icon-[ri--linkedin-fill] h-full w-4" />
+                </a>
+              )
+            }
+            {
+              socials.instagram && (
+                <a
+                  role="button"
+                  class="btn btn-circle btn-outline btn-sm"
+                  href={socials.instagram}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  aria-label="Go to Instagram">
+                  <span class="icon-[ri--instagram-fill] h-full w-4" />
+                </a>
+              )
+            }
+          </div>
+        </div>
+      </div>
+    </div>
+  </Fragment>
+
+  <script>
+    import { deobfuscate } from '$/utils/obfuscator';
+
+    const emailLink = document.getElementById('email-link') as HTMLAnchorElement;
+    if (emailLink) {
+      const obfuscatedHref = emailLink.getAttribute('data-email-href');
+      if (obfuscatedHref) {
+        const obfuscatedEmail = obfuscatedHref.replace('mailto:', '');
+        const deobfuscatedEmail = deobfuscate(obfuscatedEmail);
+        emailLink.href = `mailto:${deobfuscatedEmail}`;
+      }
+    }
+  </script>
+</PageLayout>

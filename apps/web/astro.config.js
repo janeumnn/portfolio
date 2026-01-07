@@ -1,4 +1,6 @@
 // @ts-check
+import cloudflare from '@astrojs/cloudflare';
+import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
@@ -10,10 +12,15 @@ const { SITE_URL } = loadEnv(process.env.NODE_ENV || '', process.cwd(), '');
 
 export default defineConfig({
   site: SITE_URL,
+  adapter: cloudflare({ imageService: 'compile' }),
   server: { port: 1337, host: true },
   vite: {
-    plugins: [tailwindcss()]
+    plugins: [tailwindcss()],
+    ssr: {
+      external: ['node:os', 'path']
+    }
   },
+  trailingSlash: 'never',
   integrations: [
     sitemap(),
     robotsTxt({
@@ -44,7 +51,8 @@ export default defineConfig({
         }
       ]
     }),
-    svelte()
+    svelte(),
+    mdx()
   ],
   experimental: {
     fonts: [
@@ -69,6 +77,7 @@ export default defineConfig({
       }),
       AUTHOR_NAME: envField.string({ context: 'server', access: 'public', optional: false }),
       AUTHOR_EMAIL: envField.string({ context: 'server', access: 'public', optional: true }),
+      AUTHOR_LOCATION: envField.string({ context: 'server', access: 'public', optional: true }),
       SOCIALS_GITHUB: envField.string({
         context: 'server',
         access: 'public',
@@ -92,6 +101,26 @@ export default defineConfig({
         access: 'public',
         optional: true,
         url: true
+      }),
+      CF_TURNSTILE_SITE_KEY: envField.string({
+        context: 'client',
+        access: 'public',
+        optional: true
+      }),
+      CF_TURNSTILE_SECRET_KEY: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
+      }),
+      CF_EMAIL_ROUTING_FROM: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
+      }),
+      CF_EMAIL_ROUTING_TO: envField.string({
+        context: 'server',
+        access: 'secret',
+        optional: true
       })
     }
   }
