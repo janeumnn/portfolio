@@ -3,3 +3,9 @@ declare module 'typewriter-effect/dist/core' {
 
   export default class TypeWriter extends TypewriterClass {}
 }
+
+declare namespace App {
+  type Runtime = import('@astrojs/cloudflare').Runtime<Env>;
+
+  type Locals = Runtime;
+}

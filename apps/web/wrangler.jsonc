@@ -1,12 +1,23 @@
 {
   "$schema": "./node_modules/wrangler/config-schema.json",
   "name": "portfolio",
-  "compatibility_date": "2025-11-15",
-  "workers_dev": false,
-  "preview_urls": true,
-  "send_metrics": false,
+
+  "main": "dist/_worker.js/index.js",
   "assets": {
+    "binding": "ASSETS",
     "directory": "./dist",
+    "html_handling": "drop-trailing-slash",
     "not_found_handling": "404-page"
+  },
+
+  "compatibility_date": "2025-11-15",
+  "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
+  "send_metrics": false,
+  "workers_dev": false,
+
+  "env": {
+    "preview": {
+      "workers_dev": true
+    }
   }
 }

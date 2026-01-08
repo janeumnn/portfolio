@@ -1,4 +1,5 @@
 // @ts-check
+import cloudflare from '@astrojs/cloudflare';
 import sitemap from '@astrojs/sitemap';
 import svelte from '@astrojs/svelte';
 import tailwindcss from '@tailwindcss/vite';
@@ -10,10 +11,12 @@ const { SITE_URL } = loadEnv(process.env.NODE_ENV || '', process.cwd(), '');
 
 export default defineConfig({
   site: SITE_URL,
+  adapter: cloudflare({ imageService: 'compile' }),
   server: { port: 1337, host: true },
   vite: {
     plugins: [tailwindcss()]
   },
+  trailingSlash: 'never',
   integrations: [
     sitemap(),
     robotsTxt({
