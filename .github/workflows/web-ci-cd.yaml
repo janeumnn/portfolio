@@ -81,14 +81,12 @@ jobs:
         env:
           DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
-          WEB_PREVIEW_BASE_URL: ${{ vars.WEB_PREVIEW_BASE_URL }}
         with:
           script: |
             const {
               GITHUB_REF_NAME,
               DOTENV_PRIVATE_KEY_PREVIEW,
               DOTENV_PRIVATE_KEY_PRODUCTION,
-              WEB_PREVIEW_BASE_URL
             } = process.env
 
             if (GITHUB_REF_NAME === 'main') {
@@ -97,7 +95,7 @@ jobs:
             } else {
               core.exportVariable('DOTENV_PRIVATE_KEY_PREVIEW', DOTENV_PRIVATE_KEY_PREVIEW);
               core.exportVariable('DOTENV_ENV', 'preview');
-              core.exportVariable('SITE_URL', `https://pr-${context.payload.pull_request?.number}-${WEB_PREVIEW_BASE_URL}`);
+              core.exportVariable('SITE_URL', `https://portfolio-pr-${context.payload.pull_request?.number}.${{ vars.WORKER_DEV_URL }}`);
             }
 
       - name: Build
@@ -119,12 +117,15 @@ jobs:
     defaults:
       run:
         working-directory: apps/web
+    env:
+      WEB_WORKER_NAME: portfolio-pr-${{ github.event.pull_request.number }}
     steps:
       - name: Checkout
         uses: actions/checkout@v5
         with:
           sparse-checkout: |
             apps/web/wrangler.jsonc
+            apps/web/.env.preview
           sparse-checkout-cone-mode: false
 
       - name: Restore build output
@@ -142,22 +143,27 @@ jobs:
 
       - name: Deploy
         id: deploy
-        uses: cloudflare/wrangler-action@v3.12.0
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
-          command: versions upload --preview-alias pr-${{ github.event.pull_request.number }}
+          environment: preview
+          preCommands: |
+            npx @dotenvx/dotenvx set SITE_URL "$SITE_URL" -f .env.preview
+            npx @dotenvx/dotenvx get -f .env.preview | jq 'del(.DOTENV_PUBLIC_KEY_PREVIEW)' | npx wrangler secret bulk --name $WEB_WORKER_NAME --env=""
+          command: deploy --name ${{ env.WEB_WORKER_NAME }}
+        env:
+          DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
+          SITE_URL: https://portfolio-pr-${{ github.event.pull_request.number }}.${{ vars.WORKER_DEV_URL }}
 
       - name: Get preview URL
         id: preview
         uses: actions/github-script@v8
         with:
           script: |
-            const prNumber = context.payload.pull_request.number;
-            const baseUrl = '${{ vars.WEB_PREVIEW_BASE_URL }}';
-            const previewUrl = `https://pr-${prNumber}-${baseUrl}`;
+            const previewUrl = 'https://${{ env.WEB_WORKER_NAME }}.${{ vars.WORKER_DEV_URL }}';
             core.setOutput('url', previewUrl);
 
   deploy:
@@ -176,6 +182,7 @@ jobs:
         with:
           sparse-checkout: |
             apps/web/wrangler.jsonc
+            apps/web/.env.production
           sparse-checkout-cone-mode: false
 
       - name: Restore build output
@@ -193,13 +200,17 @@ jobs:
 
       - name: Deploy
         id: deploy
-        uses: cloudflare/wrangler-action@v3.12.0
+        uses: cloudflare/wrangler-action@v3.14.1
         with:
           apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
+          preCommands: |
+            npx @dotenvx/dotenvx get -f .env.production | jq 'del(.DOTENV_PUBLIC_KEY_PRODUCTION)' | npx wrangler secret bulk --env=""
           command: deploy --domains ${{ vars.WEB_URL }} www.${{ vars.WEB_URL }}
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
 
       - name: Get deployment URL
         id: deployment

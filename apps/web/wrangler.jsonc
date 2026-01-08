@@ -13,5 +13,11 @@
   "compatibility_date": "2025-11-15",
   "compatibility_flags": ["nodejs_compat", "global_fetch_strictly_public"],
   "send_metrics": false,
-  "workers_dev": false
+  "workers_dev": false,
+
+  "env": {
+    "preview": {
+      "workers_dev": true
+    }
+  }
 }
