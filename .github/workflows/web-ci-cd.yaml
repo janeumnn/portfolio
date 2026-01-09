@@ -8,6 +8,7 @@ on:
     types: [opened, synchronize, reopened, labeled]
     paths:
       - 'apps/web/**'
+  workflow_dispatch:
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
