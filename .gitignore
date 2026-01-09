@@ -59,6 +59,7 @@ lerna-debug.log*
 public/uploads/*
 !public/uploads/.gitkeep
 .misc
+.local
 .act
 
 ############################
