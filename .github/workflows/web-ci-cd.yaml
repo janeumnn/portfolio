@@ -206,6 +206,7 @@ jobs:
           accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
           wranglerVersion: ${{ env.WRANGLER_VERSION  }}
           workingDirectory: apps/web
+          environment: ''
           preCommands: |
             npx @dotenvx/dotenvx get -f .env.production | jq 'del(.DOTENV_PUBLIC_KEY_PRODUCTION)' | npx wrangler secret bulk --env=""
           command: deploy --domains ${{ vars.WEB_URL }} www.${{ vars.WEB_URL }}
