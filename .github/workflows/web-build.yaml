@@ -45,7 +45,7 @@ jobs:
           DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
           DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
         run: |
-          if [ "${{ inputs.env_type }}" == "production" ]; then
+          if [ "${{ inputs.environment }}" == "production" ]; then
             echo "DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION" >> $GITHUB_ENV
             echo "DOTENV_ENV=production" >> $GITHUB_ENV
           else
@@ -61,4 +61,4 @@ jobs:
         uses: actions/cache/save@v4
         with:
           path: apps/web/dist
-          key: web-build-${{ inputs.env_type }}-${{ github.sha }}
+          key: web-build-${{ inputs.environment }}-${{ github.sha }}
