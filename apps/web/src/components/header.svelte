@@ -31,7 +31,7 @@
 
 <header
   class={cn(
-    'fixed right-0 bottom-8 left-0 z-10 mx-auto h-14 transition-all duration-500 ease-in-out',
+    'fixed right-0 bottom-4 left-0 z-10 mx-auto h-14 transition-all duration-500 ease-in-out',
     { 'w-14': isMinimized, 'w-2xs px-6 sm:w-xs md:w-sm': !isMinimized }
   )}>
   <div class="relative h-full w-full rounded-box bg-base-300 shadow-md outline outline-neutral/5">
