@@ -1,0 +1,64 @@
+name: web-build
+run-name: Web - Build
+
+on:
+  workflow_call:
+    inputs:
+      environment:
+        required: true
+        type: string
+      pr_number:
+        required: false
+        type: string
+    secrets:
+      DOTENV_PRIVATE_KEY_PREVIEW:
+        required: true
+      DOTENV_PRIVATE_KEY_PRODUCTION:
+        required: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Install pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          run_install: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install
+
+      - name: Set Environment Variables
+        env:
+          DOTENV_PRIVATE_KEY_PREVIEW: ${{ secrets.DOTENV_PRIVATE_KEY_PREVIEW }}
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
+        run: |
+          if [ "${{ inputs.env_type }}" == "production" ]; then
+            echo "DOTENV_PRIVATE_KEY_PRODUCTION=$DOTENV_PRIVATE_KEY_PRODUCTION" >> $GITHUB_ENV
+            echo "DOTENV_ENV=production" >> $GITHUB_ENV
+          else
+            echo "DOTENV_PRIVATE_KEY_PREVIEW=$DOTENV_PRIVATE_KEY_PREVIEW" >> $GITHUB_ENV
+            echo "DOTENV_ENV=preview" >> $GITHUB_ENV
+            echo "SITE_URL=https://portfolio-pr-${{ inputs.pr_number }}.${{ vars.WORKER_DEV_URL }}" >> $GITHUB_ENV
+          fi
+
+      - name: Build
+        run: pnpm build
+
+      - name: Save build output
+        uses: actions/cache/save@v4
+        with:
+          path: apps/web/dist
+          key: web-build-${{ inputs.env_type }}-${{ github.sha }}

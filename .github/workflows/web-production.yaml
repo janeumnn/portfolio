@@ -1,0 +1,64 @@
+name: web-production
+run-name: Web - Deploy (production)
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'apps/web/**'
+
+concurrency:
+  group: web-production
+  cancel-in-progress: false
+
+jobs:
+  build:
+    uses: ./.github/workflows/web-build.yaml
+    secrets: inherit
+    with:
+      environment: 'production'
+
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://${{ vars.WEB_URL }}
+    defaults:
+      run:
+        working-directory: apps/web
+    env:
+      WRANGLER_VERSION: 4.51.0
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+        with:
+          sparse-checkout: |
+            apps/web/wrangler.jsonc
+            apps/web/.env.production
+          sparse-checkout-cone-mode: false
+
+      - name: Install Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Restore build output
+        uses: actions/cache/restore@v4
+        with:
+          path: apps/web/dist
+          key: web-build-production-${{ github.sha }}
+          fail-on-cache-miss: true
+
+      - name: Deploy
+        uses: cloudflare/wrangler-action@v3.14.1
+        with:
+          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+          wranglerVersion: ${{ env.WRANGLER_VERSION }}
+          workingDirectory: apps/web
+          preCommands: |
+            npx @dotenvx/dotenvx get -f .env.production | jq 'del(.DOTENV_PUBLIC_KEY_PRODUCTION)' | npx wrangler secret bulk --env=""
+          command: deploy --domains ${{ vars.WEB_URL }} www.${{ vars.WEB_URL }} --env=""
+        env:
+          DOTENV_PRIVATE_KEY_PRODUCTION: ${{ secrets.DOTENV_PRIVATE_KEY_PRODUCTION }}
