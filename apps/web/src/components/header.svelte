@@ -1,14 +1,34 @@
 <script lang="ts">
   import cn from '$/utils/cn';
+  import { useIntersectionObserver } from 'runed';
+  import { onMount } from 'svelte';
   import { fade } from 'svelte/transition';
 
+  const initBottomOffset = '0.25rem';
+
   let isMinimized = $state(true);
+  let bottomOffset = $state(initBottomOffset);
 
   function toggleColorTheme() {
     const theme =
       document.documentElement.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
     document.documentElement.setAttribute('data-theme', theme);
   }
+
+  onMount(() => {
+    const footerSentinel = document.getElementById('footer-sentinel');
+
+    useIntersectionObserver(
+      () => footerSentinel,
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          bottomOffset = '2rem';
+        } else {
+          bottomOffset = initBottomOffset;
+        }
+      }
+    );
+  });
 </script>
 
 {#snippet icon()}
@@ -30,10 +50,11 @@
 {/snippet}
 
 <header
-  class={cn(
-    'fixed right-0 bottom-4 left-0 z-10 mx-auto h-14 transition-all duration-500 ease-in-out',
-    { 'w-14': isMinimized, 'w-2xs px-6 sm:w-xs md:w-sm': !isMinimized }
-  )}>
+  class={cn('fixed right-0 left-0 z-10 mx-auto h-14 transition-all duration-500 ease-in-out', {
+    'w-14': isMinimized,
+    'w-2xs px-6 sm:w-xs md:w-sm': !isMinimized
+  })}
+  style:bottom={bottomOffset}>
   <div class="relative h-full w-full rounded-box bg-base-300 shadow-md outline outline-neutral/5">
     <div class="flex h-full items-center justify-center p-4">
       <a

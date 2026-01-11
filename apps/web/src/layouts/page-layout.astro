@@ -2,15 +2,19 @@
 import '$/styles/index.css';
 import type { Props as SEOProps } from 'astro-seo';
 import Header from '$/components/header.svelte';
+import Status from '$/components/status.astro';
+import config from '$/config';
 import { SEO } from 'astro-seo';
 import { Font } from 'astro:assets';
 import { ClientRouter } from 'astro:transitions';
+import { Toaster } from 'svelte-sonner';
 
 interface Props {
   seo?: SEOProps;
 }
 
 const { seo } = Astro.props;
+const { sourceUrl } = config;
 ---
 
 <!doctype html>
@@ -57,15 +61,51 @@ const { seo } = Astro.props;
   </head>
   <body class="antialiased">
     <ClientRouter fallback="swap" />
+    <Toaster
+      client:load
+      position="top-center"
+      offset={{ top: '30px' }}
+      mobileOffset={{ top: '30px', left: '32px', right: '32px' }}
+      toastOptions={{
+        unstyled: true,
+        classes: {
+          toast: 'alert shadow-lg text-base-content bg-base-100',
+          content: 'flex flex-col gap-1',
+          title: 'font-bold text-sm',
+          description: 'text-xs opacity-90'
+        }
+      }}
+    />
     <div class="isolate">
       <div class="max-w-screen overflow-x-hidden">
         <div class="flex min-h-dvh min-w-2xs flex-col">
           <main class="@container/main mx-auto flex w-full max-w-3xl grow flex-col p-6 pb-22">
             <slot name="main" />
           </main>
+          <div id="footer-sentinel" style="height: 1px;"></div>
+          <footer
+            class="mx-auto grid h-8 w-full max-w-3xl grid-cols-[1fr_auto_1fr] items-center gap-3 px-6 text-xs text-base-content/80">
+            <div class="text-right">
+              <a
+                role="link"
+                class="link-hover"
+                href={sourceUrl}
+                rel="noopener noreferrer"
+                target="_blank"
+                aria-label="Go to Source">
+                Source
+              </a>
+            </div>
+            <div class="text-center">|</div>
+            <div class="text-left">
+              <Status server:defer
+                ><span slot="fallback" class="cursor-pointer hover:text-error">Status</span></Status
+              >
+            </div>
+          </footer>
         </div>
-        <Header client:load />
       </div>
+      <Header client:load />
     </div>
   </body>
 </html>
