@@ -17,6 +17,8 @@ In addition to serving as a portfolio, this project is a space for experimenting
 ## Project Structure
 
 - `apps/web` — Main portfolio web application built with [Astro](https://astro.build/) and [Svelte](https://svelte.dev/).
+- `packages/api` — API server and endpoints, built with [Hono](https://hono.dev/).
+- `packages/utils` — Shared utility functions and helpers.
 - `configs/eslint` — Shared ESLint configuration for consistent code quality.
 - `configs/prettier` — Shared Prettier configuration for code formatting.
 - `configs/ts` — Shared TypeScript configuration for type safety across projects.
@@ -26,6 +28,7 @@ In addition to serving as a portfolio, this project is a space for experimenting
 - **Astro** — Static site generation
 - **Svelte** — UI components
 - **TypeScript** — Type safety
+- **Hono** — Fast, lightweight web framework for the API
 - **pnpm** — Monorepo and package management
 - **ESLint** & **Prettier** — Code quality and formatting
 
