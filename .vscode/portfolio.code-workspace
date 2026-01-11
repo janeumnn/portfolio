@@ -9,6 +9,14 @@
       "path": "../apps/web"
     },
     {
+      "name": "api",
+      "path": "../packages/api"
+    },
+    {
+      "name": "utils",
+      "path": "../packages/utils"
+    },
+    {
       "name": "eslint-config",
       "path": "../configs/eslint"
     },

@@ -1,0 +1,39 @@
+---
+import { createClient } from '@portfolio/api/client-local';
+import { tryCatch } from '@portfolio/utils';
+import cn from '$/utils/cn';
+
+const { env, ctx } = Astro.locals.runtime;
+const client = createClient(env, ctx);
+
+const [data] = await tryCatch(() => client.parse(client.fetch.api.ping.$get()));
+---
+
+<span
+  data-status-text
+  class={cn('cursor-pointer hover:text-error', { 'hover:text-success': data?.success })}>
+  Status
+</span>
+
+<script>
+  import { client } from '@portfolio/api/client';
+  import { tryCatch } from '@portfolio/utils';
+  import { toast } from 'svelte-sonner';
+
+  const text = document.querySelectorAll('[data-status-text]');
+
+  text.forEach((el) => {
+    el.addEventListener('click', async () => {
+      const [data, error] = await tryCatch(() => client.parse(client.fetch.api.ping.$get()));
+
+      if (error) {
+        toast.error('Could not connect to API');
+        return;
+      }
+
+      toast.success(`Connected to ${data.meta.city} (${data.meta.colo})`, {
+        description: `Server time: ${data.meta.serverTime}`
+      });
+    });
+  });
+</script>

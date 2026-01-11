@@ -5,11 +5,13 @@ import {
   SOCIALS_GITHUB,
   SOCIALS_INSTAGRAM,
   SOCIALS_LINKEDIN,
-  SOCIALS_MONKEYTYPE
+  SOCIALS_MONKEYTYPE,
+  SOURCE_URL
 } from 'astro:env/server';
 
 export default {
   siteUrl: SITE_URL,
+  sourceUrl: SOURCE_URL,
   author: {
     name: AUTHOR_NAME,
     email: AUTHOR_EMAIL
